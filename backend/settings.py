@@ -20,7 +20,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-dotenv_file = os.path.join(BASE_DIR, "env")
+dotenv_file = os.path.join(BASE_DIR, ".env")
 if os.path.isfile(dotenv_file):
 	dotenv.load_dotenv(dotenv_file)
 
@@ -90,8 +90,28 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+DATABASES = {
+	'default': {
+		'NAME': 'd2f836b6omon24',
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'USER': 'dqqruommxhtaeg',
+		'PASSWORD': 'fac006a4b89e05eb281c72bf13993821e5c83db2c47ff4392ddfe6de4a627a94',
+		'HOST': 'ec2-18-208-55-135.compute-1.amazonaws.com',
+		'PORT': 5432
+	},
+}
+
+# DATABASES = {
+# 	'default': {
+# 		'NAME': os.getenv('ORGS_DATABASE_NAME'),
+# 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+# 		'USER': os.getenv('ORGS_DATABASE_USER'),
+# 		'PASSWORD': os.getenv('ORGS_DATABASE_PASSWORD'),
+# 		'HOST': os.getenv('ORGS_DATABASE_HOST'),
+# 		'PORT': 5432
+# 	}
+# }
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 # Password validation
