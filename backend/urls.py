@@ -21,6 +21,7 @@ from helpfastapi import views
 
 router = routers.DefaultRouter()
 router.register(r'todos', views.TodoView, 'todo')
+router.register(r'organizations', views.OrganizationView, 'organization')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
