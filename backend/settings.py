@@ -32,7 +32,7 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = 'django-insecure-i*^v4-*u8lz0&&=r*w$bfc83ci@gk1jzu%z9&lu6biq#dh#2sn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -48,13 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'corsheaders',
 	'rest_framework',
-	'django_filters',
 	'helpfastapi',
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
-}
 
 MIDDLEWARE = [
 	'django.middleware.security.SecurityMiddleware',
@@ -97,26 +92,14 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
 	'default': {
-		'NAME': 'd2f836b6omon24',
+		'NAME': os.getenv('DATABASE_NAME'),
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'USER': 'dqqruommxhtaeg',
-		'PASSWORD': 'fac006a4b89e05eb281c72bf13993821e5c83db2c47ff4392ddfe6de4a627a94',
-		'HOST': 'ec2-18-208-55-135.compute-1.amazonaws.com',
+		'USER': os.getenv('DATABASE_USER'),
+		'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+		'HOST': os.getenv('DATABASE_HOST'),
 		'PORT': 5432
-	},
+	}
 }
-
-# DATABASES = {
-# 	'default': {
-# 		'NAME': os.getenv('ORGS_DATABASE_NAME'),
-# 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-# 		'USER': os.getenv('ORGS_DATABASE_USER'),
-# 		'PASSWORD': os.getenv('ORGS_DATABASE_PASSWORD'),
-# 		'HOST': os.getenv('ORGS_DATABASE_HOST'),
-# 		'PORT': 5432
-# 	}
-# }
-# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 # Password validation
@@ -169,6 +152,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_ALLOW_ALL = True
 
 django_heroku.settings(locals())
-
-# options = DATABASES['default'].get('OPTIONS', {})
-# options.pop('sslmode', None)
