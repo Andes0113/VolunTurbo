@@ -48,8 +48,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'corsheaders',
 	'rest_framework',
+	'django_filters',
 	'helpfastapi',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 MIDDLEWARE = [
 	'django.middleware.security.SecurityMiddleware',
@@ -165,5 +170,5 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 django_heroku.settings(locals())
 
-options = DATABASES['default'].get('OPTIONS', {})
-options.pop('sslmode', None)
+# options = DATABASES['default'].get('OPTIONS', {})
+# options.pop('sslmode', None)
