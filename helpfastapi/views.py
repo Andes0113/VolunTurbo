@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import TodoSerializer, OrganizationSerializer
-from .models import Todo, Organization
+from .serializers import TodoSerializer, OrganizationSerializer, UserSerializer
+from .models import Todo, Organization, User
 from django.views import View
 from django.http import HttpResponse, HttpResponseNotFound
 import os
@@ -13,11 +13,18 @@ class TodoView(viewsets.ModelViewSet):
     serializer_class = TodoSerializer
     queryset = Todo.objects.all()
 
+
 class OrganizationView(viewsets.ModelViewSet):
 	serializer_class = OrganizationSerializer
 	queryset = Organization.objects.all()
 	filter_backends = [DjangoFilterBackend]
 	filterset_fields = ['name', 'isTestData']
+
+
+class UserView(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
 
 class Assets(View):
 
