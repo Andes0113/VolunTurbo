@@ -11,6 +11,7 @@ class Todo(models.Model):
     def _str_(self):
         return self.title
 
+
 class Organization(models.Model):
 	# If env = dev, then doesn't check this when getting. Otherwise does. 
 	isTestData = models.BooleanField(default=False)
@@ -28,3 +29,20 @@ class Organization(models.Model):
 	
 	def __str__(self):
 		return self.name
+
+
+class User(models.Model):
+	firstName = models.CharField(max_length=50)
+	lastName = models.CharField(max_length=50, default="", unique=False)
+	email = models.CharField(max_length=255, default="", unique=True)
+	phone = models.IntegerField(null=False)
+	interests = ArrayField(
+		models.CharField(max_length=30, blank=True),
+	)
+	matched = ArrayField(
+		models.CharField(max_length=50, blank=True),
+	)
+	optOut = models.BooleanField(default=False)
+
+	def __str__(self):
+		return self.firstName
