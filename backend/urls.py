@@ -20,8 +20,8 @@ from rest_framework import routers
 from helpfastapi import views
 
 router = routers.DefaultRouter()
-router.register(r'todos', views.TodoView, 'todo')
 router.register(r'organizations', views.OrganizationView, 'organization')
+router.register(r'users', views.UserView, 'user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -1,18 +1,14 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import TodoSerializer, OrganizationSerializer, UserSerializer
-from .models import Todo, Organization, User
+from .serializers import OrganizationSerializer, UserSerializer
+from .models import Organization, User
 from django.views import View
 from django.http import HttpResponse, HttpResponseNotFound
 import os
 
 # The viewsets base class provides the implementation for CRUD operations by default,
 # what we had to do was specify the serializer class and the query set.
-class TodoView(viewsets.ModelViewSet):
-    serializer_class = TodoSerializer
-    queryset = Todo.objects.all()
-
 
 class OrganizationView(viewsets.ModelViewSet):
 	serializer_class = OrganizationSerializer
