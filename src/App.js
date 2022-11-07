@@ -14,13 +14,13 @@ import {
 function App() {
   return (
     <ChakraProvider>
-      <Router>
+      <Router basename='/'>
         <Header />
         <Routes>
-          <Route path="/home" component={Viewport}/>
-          <Route path="/profile" component={Profile}/>
-          <Route path="/matches" component={Matches}/>
-          <Route path="/settings" component={Settings}/>
+          <Route path="/" exact element={<Viewport />}/>
+          <Route path="/profile" element={<Profile />}/>
+          <Route path="/matches" element={<Matches />}/>
+          <Route path="/settings" element={<Settings />}/>
         </Routes>
       </Router>
     </ChakraProvider>

@@ -1,12 +1,18 @@
 import React from 'react';
 import {
+  Box, 
+  HStack,
   Text
 } from '@chakra-ui/react'
 
 function ViewportContent() {  
   return (
  
-    <Text>Write Viewport Contents Here</Text>
+    <Box as="nav">
+      <HStack justify={'center'} spacing='20vw'>
+        <Text>Write Home Contents Here</Text>
+      </HStack>
+    </Box>   
     
     );
 }

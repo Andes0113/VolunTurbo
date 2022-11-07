@@ -8,10 +8,10 @@ import {
 function ViewportContent() {  
   return (
     <Box as="nav">
-        <HStack justify={'center'} spacing='20vw'>
-          <Text>Write Profile Contents Here</Text>
-        </HStack>
-    </Box>
+    <HStack justify={'center'} spacing='20vw'>
+      <Text>Write Profile Contents Here</Text>
+    </HStack>
+  </Box>
     );
 }
 
