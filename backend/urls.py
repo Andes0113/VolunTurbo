@@ -26,5 +26,8 @@ router.register(r'users', views.UserView, 'user')
 urlpatterns = [
     path('admin/', admin.site.urls),
 	path('api/', include(router.urls)),
+    path('settings/<uuid:id>', views.preferences_view),
+    path('interests/<uuid:id>', views.user_interests_view),
+    path('categories/<uuid:id>', views.org_categories_view),
 	re_path('.*', TemplateView.as_view(template_name='index.html')),
 ]

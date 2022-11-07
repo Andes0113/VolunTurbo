@@ -14,6 +14,8 @@ class Categories(models.Model):
 	charity = models.IntegerField(default=0)
 	children = models.IntegerField(default=0)
 	medicine = models.IntegerField(default=0)
+	def __str__(self):
+		return str(self.id)
 
 class Organization(models.Model):
 	id = models.UUIDField(
@@ -39,7 +41,7 @@ class Organization(models.Model):
 	email = models.CharField(max_length=255)
 	
 	def __str__(self):
-		return self.name
+		return self.name + " id=" + str(self.id)
 
 
 class Preferences(models.Model):
@@ -75,4 +77,4 @@ class User(models.Model):
 	)
 
 	def __str__(self):
-		return self.firstName
+		return self.firstName + " " + self.lastName + " id=" + str(self.id)
