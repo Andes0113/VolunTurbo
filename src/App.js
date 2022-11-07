@@ -1,28 +1,29 @@
-import logo from "./logo.svg";
-import "./App.css";
-import axios from "axios";
-
-axios.defaults.xsrfCookieName = "csrftoken";
-axios.defaults.xsrfHeaderName = "X-CSRFToken";
+import React from 'react';
+import { ChakraProvider } from '@chakra-ui/react'
+import Header from './components/Header';
+import Viewport from './pages/Viewport';
+import Profile from './pages/Profile';
+import Matches from './pages/Matches';
+import Settings from './pages/Settings';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/home" component={Viewport}/>
+          <Route path="/profile" component={Profile}/>
+          <Route path="/matches" component={Matches}/>
+          <Route path="/settings" component={Settings}/>
+        </Routes>
+      </Router>
+    </ChakraProvider>
   );
 }
 
