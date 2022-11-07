@@ -7,7 +7,6 @@ from .serializers import OrganizationSerializer, UserSerializer, CategoriesSeria
 from .models import Organization, User, Preferences
 from django.views import View
 from django.http import HttpResponse, HttpResponseNotFound
-# from rest_framework.authtoken.models import Token
 import os
 
 # The viewsets base class provides the implementation for CRUD operations by default,
@@ -18,7 +17,7 @@ def preferences_view(request, id):
     try:
         user = User.objects.get(id=id)
         preferences = user.settings
-    except:
+    except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
@@ -36,7 +35,7 @@ def user_interests_view(request, id):
     try:
         user = User.objects.get(id=id)
         interests = user.interests
-    except:
+    except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
@@ -54,7 +53,7 @@ def org_categories_view(request, id):
     try:
         org = Organization.objects.get(id=id)
         categories = org.categories
-    except:
+    except Organization.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
