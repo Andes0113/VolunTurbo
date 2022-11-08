@@ -27,7 +27,7 @@ def login(request):
     try:
         google_id = body["id"]
         idinfo = id_token.verify_oauth2_token(google_id, requests.Request())
-    except:
+    except requests.exceptions.GoogleAuthError:
         # Invalid token
         return Response({"error": "invalid id token"}, status=status.HTTP_401_UNAUTHORIZED)
     try:
@@ -48,7 +48,7 @@ def signup(request):
     try:
         google_id = body["id"]
         idinfo = id_token.verify_oaut2_token(google_id, requests.Request())
-    except:
+    except requests.exceptions.GoogleAuthError:
         # Invalid token
         return Response({"error": "invalid token"}, status=status.HTTP_401_UNAUTHORIZED)
     username = uuid.uuid4().hex[:30]
@@ -128,7 +128,7 @@ def dev_createorg(request):
         organization.website = body["website"]
         organization.save()
     if "address" in body:
-        address = body["address"]
+        organization.address = body["address"]
         organization.save()
 
     serializer = OrganizationSerializer(organization)
