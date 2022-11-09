@@ -8,7 +8,7 @@ import {
 
 function Login() {
 
-  const [ profile, setProfile ] = useState([]);
+  const [ profile, setProfile ] = useState(null);
   const clientId = '37984234294-psrdnv52s1a2c5vqpff046l9rs7scho4.apps.googleusercontent.com';
   
   useEffect(() => {

@@ -36,10 +36,9 @@ def login(request):
         user = profile.user
         token = Token.objects.get_or_create(user=user)[0]
     except Profile.DoesNotExist:
-        # Create User
         return Response({"error": "no profile found for that login"}, status=status.HTTP_401_UNAUTHORIZED)
-    print(token.key)
-    return Response({'token': token.key}, status=status.HTTP_200_OK)
+    serializer = ProfileSerializer(profile)
+    return Response({'token': token.key, "profile": serializer.data}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def signup(request):
@@ -57,8 +56,9 @@ def signup(request):
     first = idinfo["given_name"]
     last = idinfo["family_name"]
     user = User.objects.create_user(username=username, password=password, email=email)
-    Profile.objects.create(user=user, firstName=first, lastName=last,email=email)
-    return Response({"email": email, "first": first, "last": last}, status=status.HTTP_200_OK)
+    profile = Profile.objects.create(user=user, firstName=first, lastName=last,email=email)
+    serializer = ProfileSerializer(profile)
+    return Response({"profile": serializer.data}, status=status.HTTP_200_OK)
 
 # Test Login/Signup without Google Login
 
@@ -88,10 +88,11 @@ def dev_createuser(request):
             setattr(interests, field, value)
         interests.save()
     
-    Profile.objects.create(user=user, settings=preferences, interests=interests, firstName=first, lastName=last, email=email)
+    profile = Profile.objects.create(user=user, settings=preferences, interests=interests, firstName=first, lastName=last, email=email)
+    serializer = ProfileSerializer(profile)
     token = Token.objects.create(user=user)
 
-    return Response({"token": token.key}, status=status.HTTP_201_CREATED)
+    return Response({"token": token.key, "profile": serializer.data}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 def dev_login(request):
@@ -104,7 +105,8 @@ def dev_login(request):
         return Response(status=status.HTTP_403_FORBIDDEN)
     user = profile.user
     token = Token.objects.get_or_create(user=user)[0]
-    return Response({"token":token.key}, status=status.HTTP_202_ACCEPTED)
+    serializer = ProfileSerializer(profile)
+    return Response({"token":token.key, "profile": serializer.data}, status=status.HTTP_202_ACCEPTED)
 
 @api_view(['POST'])
 def dev_createorg(request):

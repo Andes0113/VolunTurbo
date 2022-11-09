@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.dispatch import receiver
-from django.db.models.signals import pre_delete
+from rest_framework.authtoken.models import Token
 from phone_field import PhoneField
 
 import uuid
@@ -62,7 +61,7 @@ class Profile(models.Model):
 	firstName = models.CharField(max_length=50)
 	lastName = models.CharField(max_length=50, default="", unique=False)
 	email = models.CharField(max_length=255, default="", unique=True)
-	phone = PhoneField(unique=True, blank=True, null=True)
+	phone = PhoneField(blank=True, null=True)
 
 	# Matching Info
 	interests = models.OneToOneField(
@@ -81,6 +80,7 @@ class Profile(models.Model):
 	)
 
 	def delete(self, *args, **kwargs):
+		Token.objects.get(user=self.user).delete()
 		self.user.delete()
 		self.interests.delete()
 		self.settings.delete()

@@ -26,15 +26,15 @@ router.register(r'users', views.ProfileView, 'user')
 urlpatterns = [
     path('admin/', admin.site.urls),
 	path('api/', include(router.urls)),
-    path('settings/<uuid:id>/', views.preferences_view),
-    path('interests/<uuid:id>/', views.user_interests_view),
-    path('categories/<uuid:id>/', views.org_categories_view),
-    path('login/', views.login),
-    path('signup/', views.signup),
+    path('api/settings/<uuid:id>/', views.preferences_view),
+    path('api/interests/<uuid:id>/', views.user_interests_view),
+    path('api/categories/<uuid:id>/', views.org_categories_view),
+    path('auth/login/', views.login),
+    path('auth/signup/', views.signup),
     # Dev Tools for testing; should never be available in production. 
     # Comment out or delete when pushing to heroku. 
-    path('dev_createuser/', views.dev_createuser),
-    path('dev_createorg/', views.dev_createorg),
-    path('dev_login/', views.dev_login),
+    path('dev/createuser/', views.dev_createuser),
+    path('dev/createorg/', views.dev_createorg),
+    path('dev/login/', views.dev_login),
 	re_path('.*', TemplateView.as_view(template_name='index.html')),
 ]
