@@ -34,7 +34,7 @@ function Login() {
   const logOut = () => {
       setProfile(null);
   };
-  console.log(profile);
+
   return (
       <div>
           {profile ? (
