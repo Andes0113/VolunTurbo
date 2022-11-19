@@ -88,7 +88,7 @@ class Profile(models.Model):
 		null=True,
 	)
 	seen = models.ManyToManyField(Organization, related_name='seenby', blank=True)
-	matched = models.ManyToManyField(Organization, related_name='matched', blank=True)
+	matches = models.ManyToManyField(Organization, related_name='matches', blank=True)
 
 	# Settings
 	settings = models.OneToOneField(
