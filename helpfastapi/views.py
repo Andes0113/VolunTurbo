@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -11,6 +10,8 @@ from django.views import View
 from django.http import HttpResponse, HttpResponseNotFound
 from google.oauth2 import id_token
 from google.auth.transport import requests
+from .googleauth import GoogleBackend
+from django.db.models import F
 import os
 import json
 import uuid
@@ -24,19 +25,12 @@ import uuid
 def login(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
-    try:
-        google_id = body["id"]
-        idinfo = id_token.verify_oauth2_token(google_id, requests.Request())
-    except requests.exceptions.GoogleAuthError:
-        # Invalid token
-        return Response({"error": "invalid id token"}, status=status.HTTP_401_UNAUTHORIZED)
-    try:
-        email = idinfo["email"]
-        profile = Profile.objects.get(email=email)
-        user = profile.user
-        token = Token.objects.get_or_create(user=user)[0]
-    except Profile.DoesNotExist:
-        return Response({"error": "no profile found for that login"}, status=status.HTTP_401_UNAUTHORIZED)
+    google_id = body["id"]
+    user = GoogleBackend.authenticate(request=request, token=google_id)
+    if user == None:
+        return Response({'error': 'invalid google login'}, status=status.HTTP_403_FORBIDDEN)
+    token = Token.objects.get_or_create(user=user)[0]
+    profile = user.profile
     serializer = ProfileSerializer(profile)
     return Response({'token': token.key, "profile": serializer.data}, status=status.HTTP_200_OK)
 
@@ -46,7 +40,7 @@ def signup(request):
     body = json.loads(body_unicode)
     try:
         google_id = body["id"]
-        idinfo = id_token.verify_oaut2_token(google_id, requests.Request())
+        idinfo = id_token.verify_oauth2_token(google_id, requests.Request())
     except requests.exceptions.GoogleAuthError:
         # Invalid token
         return Response({"error": "invalid token"}, status=status.HTTP_401_UNAUTHORIZED)
@@ -59,6 +53,21 @@ def signup(request):
     profile = Profile.objects.create(user=user, firstName=first, lastName=last,email=email)
     serializer = ProfileSerializer(profile)
     return Response({"profile": serializer.data}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def findmatch(request):
+    user = request.user
+    organizations = Organization.objects.exclude(seenby=user.id, isTestData=True, approved=False)
+    # # This way is very annoying and resitant to change. Try to find another way to do this
+    interests = user.profile.interests
+    matches = organizations.annotate(rank=(
+        F('arts_and_culture') * interests.arts_and_culture + 
+        F('charity') * interests.charity +
+        F('children') + interests.children
+    )).order_by('rank').desc()[:1]
+    match1 = OrganizationSerializer(matches[0])
+    match2 = OrganizationSerializer(matches[1])
+    return Response({"match1": match1.data, "match2": match2.data}, status=status.HTTP_200_OK)
 
 # Test Login/Signup without Google Login
 

@@ -31,6 +31,7 @@ urlpatterns = [
     path('api/categories/<uuid:id>/', views.org_categories_view),
     path('auth/login/', views.login),
     path('auth/signup/', views.signup),
+    # path('findmatch/', views.findmatch),
     # Dev Tools for testing; should never be available in production. 
     # Comment out or delete when pushing to heroku. 
     path('dev/createuser/', views.dev_createuser),
