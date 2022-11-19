@@ -25,16 +25,28 @@ router.register(r'users', views.ProfileView, 'user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Base API
 	path('api/', include(router.urls)),
-    path('api/settings/<uuid:id>/', views.preferences_view),
-    path('api/interests/<uuid:id>/', views.user_interests_view),
+    path('api/settings/', views.user_preferences_view),
+    path('api/interests/', views.user_interests_view),
     path('api/categories/<uuid:id>/', views.org_categories_view),
-    path('auth/login/', views.login),
-    path('auth/signup/', views.signup),
+
+    # Auth
+    path('auth/login/', views.google_login),
+
+    # Matching
+    path('match/<uuid:id>/', views.match),
+    path('ignore/<uuid:id>/', views.match),
+    path('findmatch/', views.findmatch),
+    path('matches/', views.get_matches),
+
     # Dev Tools for testing; should never be available in production. 
     # Comment out or delete when pushing to heroku. 
     path('dev/createuser/', views.dev_createuser),
     path('dev/createorg/', views.dev_createorg),
-    path('dev/login/', views.dev_login),
+    path('dev/getusertoken/<uuid:id>/', views.dev_gettoken),
+
+    # React Linking
 	re_path('.*', TemplateView.as_view(template_name='index.html')),
 ]

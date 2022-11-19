@@ -22,7 +22,9 @@ function Login() {
   });
   
   const onSuccess = (res) => {
+      let id_token = res.getAuthResponse().id_token;
       setProfile(res.profileObj);
+      // console.log("ID TOKEN: " + id_token);
   };
   
   const onFailure = (err) => {
