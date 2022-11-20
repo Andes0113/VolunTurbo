@@ -1,22 +1,18 @@
-from django.shortcuts import render
-from rest_framework import viewsets, status
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import OrganizationSerializer, UserSerializer, CategoriesSerializer, PreferencesSerializer
-from .models import Organization, User, Preferences
-from django.views import View
-from django.http import HttpResponse, HttpResponseNotFound
-import os
-
-# The viewsets base class provides the implementation for CRUD operations by default,
-# what we had to do was specify the serializer class and the query set.
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
+from ..serializers import CategoriesSerializer, PreferencesSerializer
+from ..models import Organization
 
 @api_view(['GET', 'PUT'])
-def preferences_view(request, id):
+def user_preferences_view(request):
     try:
-        user = User.objects.get(id=id)
-        preferences = user.settings
+        token = request.META['HTTP_AUTHORIZATION'][13:]
+        user = Token.objects.get(key=token).user
+        profile = user.profile
+        preferences = profile.settings
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
@@ -31,10 +27,12 @@ def preferences_view(request, id):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT'])
-def user_interests_view(request, id):
+def user_interests_view(request):
     try:
-        user = User.objects.get(id=id)
-        interests = user.interests
+        token = request.META['HTTP_AUTHORIZATION'][13:]
+        user = Token.objects.get(key=token).user
+        profile = user.profile
+        interests = profile.interests
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
@@ -48,7 +46,7 @@ def user_interests_view(request, id):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'PUT'])
 def org_categories_view(request, id):
     try:
         org = Organization.objects.get(id=id)
@@ -65,26 +63,3 @@ def org_categories_view(request, id):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class OrganizationView(viewsets.ModelViewSet):
-	serializer_class = OrganizationSerializer
-	queryset = Organization.objects.all()
-	filter_backends = [DjangoFilterBackend]
-	filterset_fields = ['name', 'isTestData']
-
-
-class UserView(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
-
-
-class Assets(View):
-
-    def get(self, _request, filename):
-        path = os.path.join(os.path.dirname(__file__), 'static', filename)
-
-        if os.path.isfile(path):
-            with open(path, 'rb') as file:
-                return HttpResponse(file.read(), content_type='application/javascript')
-        else:
-            return HttpResponseNotFound()

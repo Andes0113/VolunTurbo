@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Organization, User, Categories, Preferences
+from .models import Organization, Profile, Categories, Preferences
 
 
 class CategoriesSerializer(serializers.ModelSerializer):
@@ -19,7 +19,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 		filter_fields = ('name', 'isTestData')
 
 
-class UserSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = User
+		model = Profile
 		fields = '__all__'

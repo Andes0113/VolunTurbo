@@ -27,6 +27,7 @@ import {
 import {
   Link as RouteLink,
 } from "react-router-dom";
+import Profile from "../pages/Profile";
 
 function ViewportContent() {  
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -82,6 +83,7 @@ function ViewportContent() {
 
   return (
     <VStack  justify={'center'}>
+      <h1>{window.user}</h1>
       <Heading size='2xl' paddingTop={"10vh"} justifyContent='center' textAlign={'center'}>
         Welcome to Help Fast!
       </Heading>
@@ -93,7 +95,7 @@ function ViewportContent() {
         <RouteLink onClick={onOpen}>
           <Link style={{textDecoration: 'none'}}>
             <Box  width='15vw' borderWidth='1px' borderRadius='lg'>
-              <Box padding={'10px'} fontSize='0.75rem' fontWeight={'bold'} textAlign='center' overflorWrap={'break-word'}>
+              <Box padding={'10px'} fontSize='0.75rem' fontWeight={'bold'} textAlign='center' overflowWrap={'break-word'}>
                 Register Organization
               </Box>
               <Drawer

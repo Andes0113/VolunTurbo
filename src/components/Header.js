@@ -21,19 +21,19 @@ function Header() {
               <img src={Logo} width={200} height={200}></img> 
               <ButtonGroup variant="ghost" spacing={10} size='sm'>
                 <RouteLink to="/profile">
-                  <Link style={{textDecoration: 'none'}}><Button key={'Profile'}>{'Profile'}</Button></Link>
+                  <Button key={'Profile'}>{'Profile'}</Button>
                 </RouteLink>
                 <RouteLink to="/match">
-                  <Link style={{textDecoration: 'none'}}><Button key={'Match'}>{'Match'}</Button></Link>
+                  <Button key={'Match'}>{'Match'}</Button>
                 </RouteLink>  
                 <RouteLink to="/matches">
-                  <Link style={{textDecoration: 'none'}}><Button key={'Matches'}>{'Matches'}</Button></Link>
+                  <Button key={'Matches'}>{'Matches'}</Button>
                 </RouteLink>
                 <RouteLink to="/settings">
-                  <Link style={{textDecoration: 'none'}}><Button key={'Settings'}>{'Settings'}</Button></Link>
+                  <Button key={'Settings'}>{'Settings'}</Button>
                 </RouteLink>  
                 <RouteLink to="/">
-                  <Link style={{textDecoration: 'none'}}><Button key={'About'}>{'About'}</Button></Link>
+                  <Button key={'About'}>{'About'}</Button>
                 </RouteLink>  
                 <Login />
               </ButtonGroup>

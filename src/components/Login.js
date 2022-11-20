@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import { gapi} from 'gapi-script';
+import { gapi } from 'gapi-script';
 import {
-  Box,
   Button,
 } from '@chakra-ui/react'
 
 function Login() {
-
-  const [ profile, setProfile ] = useState([]);
+  const [ profile, setProfile ] = useState(null);
   const clientId = '37984234294-psrdnv52s1a2c5vqpff046l9rs7scho4.apps.googleusercontent.com';
 
-  window.user = profile;
-
   useEffect(() => {
-      const initClient = () => {
-          gapi.client.init({
-              clientId: clientId,
-              scope: ''
-          });
-      };
-      gapi.load('client:auth2', initClient);
-  });
+    function start() {
+      gapi.client.init({
+        clientId: clientId,
+      });
+    }
+
+    gapi.load('client:auth2', start);
+  }, []);
+
   
   const onSuccess = (res) => {
       setProfile(res.profileObj);
+      console.log(res.profileObj);
+     
+      let id_token = res.getAuthResponse().id_token;
+      console.log("ID TOKEN: " + id_token);
   };
   
   const onFailure = (err) => {
@@ -54,7 +55,6 @@ function Login() {
               clientId={clientId}
               onSuccess={onSuccess}
               onFailure={onFailure}
-              cookiePolicy={'single_host_origin'}
               isSignedIn={true}
               render={renderProps => (
                 <Button colorScheme='green' onClick={renderProps.onClick} disabled={renderProps.disabled}>
