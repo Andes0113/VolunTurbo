@@ -11,19 +11,24 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import { 
+  Box
+} from '@chakra-ui/react'
 
 function App() {
   return (
     <ChakraProvider>
       <Router basename='/'>
         <Header />
-        <Routes>
-          <Route path="/" exact element={<About />}/>
-          <Route path="/match" element={<Match />}/>
-          <Route path="/profile" element={<Profile />}/>
-          <Route path="/matches" element={<Matches />}/>
-          <Route path="/settings" element={<Settings />}/>
-        </Routes>
+        <Box margin={'auto'} width={'90vh'}>
+          <Routes>
+              <Route path="/" exact element={<About />}/>
+              <Route path="/match" element={<Match />}/>
+              <Route path="/profile" element={<Profile />}/>
+              <Route path="/matches" element={<Matches />}/>
+              <Route path="/settings" element={<Settings />}/>
+          </Routes>
+        </Box>
       </Router>
     </ChakraProvider>
   );
