@@ -1,8 +1,15 @@
 import ProfileContents from '../containers/ProfileContents'
+import Login from '../components/Login'
+import {
+  Box
+} from '@chakra-ui/react'
 
 function Profile() {  
     return (
-      <ProfileContents />
+      <Box>
+        <ProfileContents />
+        <Login />
+      </Box>
     );
   }
   

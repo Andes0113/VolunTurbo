@@ -18,14 +18,11 @@ function Login() {
 
     gapi.load('client:auth2', start);
   }, []);
-
   
   const onSuccess = (res) => {
       setProfile(res.profileObj);
       console.log(res.profileObj);
-     
-      let id_token = res.getAuthResponse().id_token;
-      console.log("ID TOKEN: " + id_token);
+      localStorage.setItem('token', res.getAuthResponse().id_token)
   };
   
   const onFailure = (err) => {
@@ -33,6 +30,7 @@ function Login() {
   };
   
   const logOut = () => {
+      localStorage.removeItem('token');
       setProfile(null);
   };
 
@@ -49,7 +47,6 @@ function Login() {
                 </Button>
               )}        
             />
-            
           ) : (
               <GoogleLogin 
               clientId={clientId}

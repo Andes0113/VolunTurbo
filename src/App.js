@@ -10,23 +10,49 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
+  useLocation
 } from "react-router-dom";
 import { 
   Box
 } from '@chakra-ui/react'
 
 function App() {
+
+  function RequireAuth({ children }) {
+    var token = localStorage.getItem('token');
+    const location = useLocation();
+  
+    console.log(token);
+
+    return token 
+    ?  children
+    : <Navigate to="/login" replace state={{ path: location.pathname }} />;
+  }
+
   return (
     <ChakraProvider>
       <Router basename='/'>
         <Header />
         <Box margin={'auto'} width={'90vh'}>
           <Routes>
-              <Route path="/" exact element={<About />}/>
-              <Route path="/match" element={<Match />}/>
-              <Route path="/profile" element={<Profile />}/>
-              <Route path="/matches" element={<Matches />}/>
-              <Route path="/settings" element={<Settings />}/>
+              <Route path="/" exact element={
+                <RequireAuth>
+                  <About />
+                </RequireAuth>}/>
+              <Route path="/match" element={
+                <RequireAuth>
+                  <Match />
+                </RequireAuth>}/>
+              <Route path="/matches" element={
+                <RequireAuth>
+                  <Matches />
+                </RequireAuth>}/>
+              <Route path="/settings" element={
+                <RequireAuth>
+                  <Settings />
+                </RequireAuth>}/>
+              <Route path="/login" element={<Profile />}/>
           </Routes>
         </Box>
       </Router>

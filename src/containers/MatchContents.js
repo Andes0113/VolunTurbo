@@ -7,8 +7,8 @@ import {
 
 function MatchContents() {  
   return (
-    <Box as="nav">
-      <HStack justify={'center'} spacing='20vw'>
+    <Box as="nav" paddingTop='10vh'>
+      <HStack justify={'center'} spacing='20vw' >
         <Text>Write Match Contents Here</Text>
       </HStack>
     </Box>   

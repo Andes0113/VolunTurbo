@@ -7,7 +7,7 @@ import {
 
 function ViewportContent() {  
   return (
-    <Box as="nav">
+    <Box as="nav" paddingTop='10vh'>
       <HStack justify={'center'} spacing='20vw'>
         <Text>Write Matches Contents Here</Text>
       </HStack>
