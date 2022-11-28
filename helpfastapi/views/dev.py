@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
-from ..serializers import OrganizationSerializer, ProfileSerializer
+from ..serializers import ProfileSerializer
 from ..models import Organization, Profile, Preferences, Categories
 import json
 import uuid
@@ -49,32 +49,4 @@ def dev_gettoken(request, id):
     user = profile.user
     token = Token.objects.get_or_create(user=user)[0]
     serializer = ProfileSerializer(profile)
-    return Response({"token":token.key, "profile": serializer.data}, status=status.HTTP_202_ACCEPTED)
-
-@api_view(['POST'])
-def dev_createorg(request):
-    body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
-
-    categories = Categories.objects.create()
-    if "categories" in body:
-        for field, value in body["categories"].items():
-            setattr(categories, field, value)
-        categories.save()
-    
-    organization = Organization.objects.create(
-        name=body["name"], 
-        isTestData=body["isTestData"],
-        description=body["description"],
-        matchInfo = body["matchInfo"],
-        email=body["email"],
-        categories=categories)
-    if "website" in body:
-        organization.website = body["website"]
-        organization.save()
-    if "address" in body:
-        organization.address = body["address"]
-        organization.save()
-
-    serializer = OrganizationSerializer(organization)
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response({"token": token.key, "profile": serializer.data}, status=status.HTTP_202_ACCEPTED)

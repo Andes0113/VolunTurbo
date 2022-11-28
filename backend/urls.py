@@ -31,6 +31,7 @@ urlpatterns = [
     path('api/settings/', views.user_preferences_view),
     path('api/interests/', views.user_interests_view),
     path('api/categories/<uuid:id>/', views.org_categories_view),
+    path('api/createorg/', views.createorg),
 
     # Auth
     path('auth/login/', views.google_login),
@@ -41,11 +42,14 @@ urlpatterns = [
     path('findmatch/', views.findmatch),
     path('matches/', views.get_matches),
 
+    # Update Location
+    path('updatelocation/', views.update_user_location),
+
     # Dev Tools for testing; should never be available in production. 
     # Comment out or delete when pushing to heroku. 
     path('dev/createuser/', views.dev_createuser),
-    path('dev/createorg/', views.dev_createorg),
     path('dev/getusertoken/<uuid:id>/', views.dev_gettoken),
+    path('dev/approve/<uuid:id>/', views.dev_approveorg),
 
     # React Linking
 	re_path('.*', TemplateView.as_view(template_name='index.html')),

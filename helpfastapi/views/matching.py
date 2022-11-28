@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from ..serializers import OrganizationSerializer
-from ..models import Organization
+from .locate import get_nearby_organizations
 from django.db.models import F
 
 @api_view(['PUT'])
@@ -47,7 +47,11 @@ def findmatch(request):
     interests = profile.interests
 
     # Get organizations
-    organizations = Organization.objects.exclude(
+    organizations = get_nearby_organizations(
+        profile.latitude, 
+        profile.longitude,
+        profile.settings.viewRadius
+    ).exclude(
         seenby=user.id
     ).exclude(
         isTestData=True
@@ -56,8 +60,21 @@ def findmatch(request):
     )
 
     # Rank Organizations
+    matches = calculate_ranks(organizations, interests)
+
+    # Return highest 2 ranked organizations
+    if matches.count() == 0:
+        return Response({"error": "no matches found"}, status=status.HTTP_200_OK)
+    match1 = OrganizationSerializer(matches[0])
+    if(matches.count() > 1):
+        match2 = OrganizationSerializer(matches[1])
+        return Response({"current": match1.data, "next": match2.data}, status=status.HTTP_200_OK)
+    else:
+        return Response({"current": match1.data}, status=status.HTTP_200_OK)
+
+def calculate_ranks(organizations, interests):
     # Side note: this just sucks. Try to find a way to change in the future
-    matches = organizations.annotate(rank=(
+    return organizations.annotate(rank=(
         F('categories__arts_and_culture') * interests.arts_and_culture + 
         F('categories__charity') * interests.charity +
         F('categories__children') * interests.children +
@@ -77,14 +94,4 @@ def findmatch(request):
         F('categories__wildlife') * interests.wildlife +
         F('categories__finance') * interests.finance +
         F('categories__nonprofit') * interests.nonprofit
-    )).order_by('rank')[:2]
-
-    # Return highest 2 ranked organizations
-    if matches.count() == 0:
-        return Response({"error": "no matches found"}, status=status.HTTP_200_OK)
-    match1 = OrganizationSerializer(matches[0])
-    if(matches.count() > 1):
-        match2 = OrganizationSerializer(matches[1])
-        return Response({"current": match1.data, "next": match2.data}, status=status.HTTP_200_OK)
-    else:
-        return Response({"current": match1.data}, status=status.HTTP_200_OK)
+    )).order_by('rank')
