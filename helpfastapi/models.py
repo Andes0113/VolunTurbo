@@ -55,7 +55,12 @@ class Organization(models.Model):
 	# Viewable in more info
 	description = models.TextField()
 	website = models.CharField(max_length=50, blank=True)
-	address = models.CharField(max_length=50, blank=True)
+
+	# Geolocation Info
+	address = models.CharField(max_length=50)
+	latitude = models.FloatField()
+	longitude = models.FloatField()
+	
 	# Viewable after matching
 	matchInfo = models.TextField()
 	email = models.CharField(max_length=255)
@@ -80,6 +85,11 @@ class Profile(models.Model):
 	lastName = models.CharField(max_length=50, default="", unique=False)
 	email = models.CharField(max_length=255, default="", unique=True)
 	phone = PhoneField(blank=True, null=True)
+
+	# Geolocation Info
+	location = models.CharField(max_length=255)
+	latitude = models.FloatField()
+	longitude = models.FloatField()
 
 	# Matching Info
 	interests = models.OneToOneField(

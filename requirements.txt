@@ -14,6 +14,8 @@ django-heroku==0.3.1
 django-phone-field==1.8.1
 django-webpack-loader==1.6.0
 djangorestframework==3.14.0
+geographiclib==2.0
+geopy==2.3.0
 google-auth==2.14.1
 gunicorn==20.1.0
 idna==3.4
