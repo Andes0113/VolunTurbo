@@ -35,7 +35,9 @@ class GoogleBackend(BaseBackend):
                 lastName=last,
                 email=email, 
                 settings=settings, 
-                interests=interests
+                interests=interests,
+                latitude=0.0,
+                longitude=0.0,
             )
         return profile.user
     
