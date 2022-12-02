@@ -17,7 +17,7 @@ function ViewportContent() {
     axios.post('/auth/login/', {
       headers: {},
       data: {
-        id: `${localStorage.getItem('token')}`
+        id: `${sessionStorage.getItem('token')}`
       }
     })
     .then((res) => {
