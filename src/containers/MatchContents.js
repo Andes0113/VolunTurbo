@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import {
   Box, 
   Badge,
@@ -32,7 +33,7 @@ function MatchContents() {
                 Company Title
               </Box>
               <Box>
-                Comapny Location
+                Company Location
               </Box>
             </Box>
           </Box>
