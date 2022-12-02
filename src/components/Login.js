@@ -5,12 +5,15 @@ import {
   Box,
   Button,
 } from '@chakra-ui/react'
+import axios from 'axios';
 
 function Login() {
 
   const [ profile, setProfile ] = useState(null);
   const clientId = '37984234294-psrdnv52s1a2c5vqpff046l9rs7scho4.apps.googleusercontent.com';
-  
+
+  window.user = profile;
+
   useEffect(() => {
       const initClient = () => {
           gapi.client.init({
@@ -34,18 +37,18 @@ function Login() {
   const logOut = () => {
       setProfile(null);
   };
-  
+  console.log(profile);
   return (
       <div>
           {profile ? (
               <GoogleLogout
               clientId={clientId} 
               onLogoutSuccess={logOut}   
+              isSignedIn={false}
               render={renderProps => (
                 <Button colorScheme='red' onClick={renderProps.onClick} disabled={renderProps.disabled}>
                   Log Out
                 </Button>
-
               )}        
             />
             
