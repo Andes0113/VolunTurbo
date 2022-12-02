@@ -22,7 +22,7 @@ function Login() {
   const onSuccess = (res) => {
       setProfile(res.profileObj);
       console.log(res.profileObj);
-      localStorage.setItem('token', res.getAuthResponse().id_token)
+      localStorage.setItem('token', res.getAuthResponse().id_token);
   };
   
   const onFailure = (err) => {
