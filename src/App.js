@@ -2,7 +2,6 @@ import React from 'react';
 import { ChakraProvider } from '@chakra-ui/react'
 import Header from './components/Header';
 import About from './pages/About';
-import Profile from './pages/Profile';
 import Matches from './pages/Matches';
 import Match from './pages/Match';
 import Settings from './pages/Settings';
@@ -20,7 +19,6 @@ function App() {
         <Routes>
           <Route path="/" exact element={<About />}/>
           <Route path="/match" element={<Match />}/>
-          <Route path="/profile" element={<Profile />}/>
           <Route path="/matches" element={<Matches />}/>
           <Route path="/settings" element={<Settings />}/>
         </Routes>

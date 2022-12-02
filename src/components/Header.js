@@ -20,9 +20,6 @@ function Header() {
         <HStack justify={'center'} spacing='15vw'>
               <img src={Logo} width={200} height={200}></img> 
               <ButtonGroup variant="ghost" spacing={10} size='sm'>
-                <RouteLink to="/profile">
-                  <Link style={{textDecoration: 'none'}}><Button key={'Profile'}>{'Profile'}</Button></Link>
-                </RouteLink>
                 <RouteLink to="/match">
                   <Link style={{textDecoration: 'none'}}><Button key={'Match'}>{'Match'}</Button></Link>
                 </RouteLink>  
