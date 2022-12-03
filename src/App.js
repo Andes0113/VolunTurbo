@@ -1,4 +1,5 @@
 import React from 'react';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ChakraProvider } from '@chakra-ui/react'
 import Header from './components/Header';
 import About from './pages/About';
@@ -20,43 +21,41 @@ import {
 function App() {
 
   function RequireAuth({ children }) {
-    var token = sessionStorage.getItem('token');
+    var token = localStorage.getItem('token');
     const location = useLocation();
-  
-    console.log(token);
-
+    
     return token 
     ?  children
     : <Navigate to="/login" replace state={{ path: location.pathname }} />;
   }
 
   return (
-    <ChakraProvider>
-      <Router basename='/'>
-        <Header />
-        <Box margin={'auto'} width={'90vh'}>
-          <Routes>
-              <Route path="/" exact element={
-                <RequireAuth>
-                  <About />
-                </RequireAuth>}/>
-              <Route path="/match" element={
-                <RequireAuth>
-                  <Match />
-                </RequireAuth>}/>
-              <Route path="/matches" element={
-                <RequireAuth>
-                  <Matches />
-                </RequireAuth>}/>
-              <Route path="/settings" element={
-                <RequireAuth>
-                  <Settings />
-                </RequireAuth>}/>
-              <Route path="/login" element={<Profile />}/>
-          </Routes>
-        </Box>
-      </Router>
-    </ChakraProvider>
+      <ChakraProvider>
+        <Router basename='/'>
+          <Header />
+          <Box margin={'auto'} width={'90vh'}>
+            <Routes>
+                <Route path="/" exact element={
+                  <RequireAuth>
+                    <About />
+                  </RequireAuth>}/>
+                <Route path="/match" element={
+                  <RequireAuth>
+                    <Match />
+                  </RequireAuth>}/>
+                <Route path="/matches" element={
+                  <RequireAuth>
+                    <Matches />
+                  </RequireAuth>}/>
+                <Route path="/settings" element={
+                  <RequireAuth>
+                    <Settings />
+                  </RequireAuth>}/>
+                <Route path="/login" element={<Profile />}/>
+            </Routes>
+          </Box>
+        </Router>
+      </ChakraProvider>
   );
 }
 
