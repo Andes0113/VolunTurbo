@@ -9,7 +9,7 @@ from ..models import Organization
 @api_view(['GET', 'PUT'])
 def user_preferences_view(request):
     try:
-        token = request.META['HTTP_AUTHORIZATION'][13:]
+        token = request.headers['Authorization'][13:]
         user = Token.objects.get(key=token).user
         profile = user.profile
         preferences = profile.settings
@@ -29,7 +29,7 @@ def user_preferences_view(request):
 @api_view(['GET', 'PUT'])
 def user_interests_view(request):
     try:
-        token = request.META['HTTP_AUTHORIZATION'][13:]
+        token = request.headers['Authorization'][13:]
         user = Token.objects.get(key=token).user
         profile = user.profile
         interests = profile.interests

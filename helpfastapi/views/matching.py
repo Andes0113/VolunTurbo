@@ -2,24 +2,27 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
-from ..serializers import OrganizationSerializer
+from ..serializers import OrganizationSerializer, ProfileSerializer
 from .locate import get_nearby_organizations
 from django.db.models import F
 
 @api_view(['PUT'])
 def match(request, id):
-    token = request.META['HTTP_AUTHORIZATION'][13:]
+    auth = request.headers['Authorization']
+    token = auth[13:]
     user = Token.objects.get(key=token).user
+    profile = user.profile
+    serializer = ProfileSerializer(profile)
     # Get user profile from user
     # Get organization by its orgid
     # Add organization to user's matched field
     # Add organization to user's seen field
     # Return response indicating success with organization's id
-    return Response(status=status.HTTP_200_OK)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
 def ignore(request, id):
-    token = request.META['HTTP_AUTHORIZATION'][13:]
+    token = request.headers['Authorization'][13:]
     user = Token.objects.get(key=token).user
     # Get user profile from user
     # Get organization by its orgid
@@ -29,7 +32,7 @@ def ignore(request, id):
 
 @api_view(['GET'])
 def get_matches(request):
-    token = request.META['HTTP_AUTHORIZATION'][13:]
+    token = request.headers['Authorization'][13:]
     user = Token.objects.get(key=token).user
     profile = user.profile
 
@@ -41,7 +44,7 @@ def get_matches(request):
 @api_view(['GET'])
 def findmatch(request):
     # Get user and interests
-    token = request.META['HTTP_AUTHORIZATION'][13:]
+    token = request.headers['Authorization'][13:]
     user = Token.objects.get(key=token).user
     profile = user.profile
     interests = profile.interests
