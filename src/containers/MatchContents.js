@@ -43,12 +43,9 @@ function MatchContents() {
     if (organizations.length > 1) {
       if (maxIndex === index) setMaxIndex(maxIndex + 1);
       setIndex(index + 1);
-      // currentIndex = Math.max(currentIndex, index + 1);
-      console.log(maxIndex);
     } else {
       findMatches().then((data) => {
-        organizations.concat(data.slice(1));
-        // setOrganizations(organizations.concat(data.slice(1)));
+        organizations = organizations.concat(data.slice(1));
         if (maxIndex === index) setMaxIndex(maxIndex + 1);
         setIndex(index + 1);
       });
