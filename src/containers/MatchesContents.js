@@ -31,7 +31,7 @@ function ViewportContent() {
 
   return (
     <Box as="nav" paddingTop='10vh'>
-      <HStack justify={'center'} spacing='20vw' onLoad={getUserToken()}>
+      <HStack justify={'center'} spacing='20vw'>
         <MatchedCompanyCard/>      
       </HStack>
     </Box>   
