@@ -40,7 +40,7 @@ function MatchContents() {
   }, []);
 
   const viewNextOrganization = () => {
-    if (organizations.length > 1) {
+    if (organizations.length - index > 1) {
       if (maxIndex === index) setMaxIndex(maxIndex + 1);
       setIndex(index + 1);
     } else {
