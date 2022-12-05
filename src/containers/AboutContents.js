@@ -82,6 +82,7 @@ function ViewportContent() {
 
 
   return (
+    
     <VStack  justify={'center'}>
       <h1>{window.user}</h1>
       <Heading size='2xl' paddingTop={"10vh"} justifyContent='center' textAlign={'center'}>

@@ -57,7 +57,7 @@ class Organization(models.Model):
 	website = models.CharField(max_length=50, blank=True)
 
 	# Geolocation Info
-	address = models.CharField(max_length=50)
+	address = models.CharField(max_length=100)
 	latitude = models.FloatField()
 	longitude = models.FloatField()
 	
@@ -67,6 +67,10 @@ class Organization(models.Model):
 	
 	def __str__(self):
 		return self.name + " id=" + str(self.id)
+
+	def delete(self, *args, **kwargs):
+		self.categories.delete()
+		return super(self.__class__, self).delete(*args, **kwargs)
 
 
 class Preferences(models.Model):

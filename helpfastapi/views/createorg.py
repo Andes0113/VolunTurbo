@@ -21,6 +21,7 @@ def createorg(request):
     address = body["address"]
     geolocator = Nominatim(user_agent="VolunTurbo")
     location = geolocator.geocode(address)
+    print((location.latitude, location.longitude))
     if location is None:
         return Response({"Error": "Invalid Address"}, status=status.HTTP_400_BAD_REQUEST)
     
@@ -41,11 +42,12 @@ def createorg(request):
     serializer = OrganizationSerializer(organization)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-@api_view(['GET'])
+@api_view(['PUT'])
 def dev_approveorg(request, id):
     try:
         organization = Organization.objects.get(id=id)
     except Organization.DoesNotExist:
         return Response(status=status.HTTP_403_FORBIDDEN)
     organization.approved = True
+    organization.save()
     return Response(status.HTTP_202_ACCEPTED)
