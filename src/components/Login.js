@@ -8,13 +8,13 @@ function Login() {
  
   function handleCallbackResponse(response) {
     console.log("JWT Token: " + response.credential);
-    localStorage.setItem('token', response.credential);
+    sessionStorage.setItem('token', response.credential);
     setProfile(response.credential);
     document.getElementById("signIn").hidden=true;
   };
 
   function handleSignOut(event) {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     setProfile({});
     document.getElementById("signIn").hidden=false;
   };
@@ -41,7 +41,6 @@ function Login() {
       
       { Object.keys(profile).length != 0 &&
         <Button onClick={(e) => handleSignOut(e)}>Log Out</Button>
-
       }
 
     </div>

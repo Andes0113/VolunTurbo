@@ -21,7 +21,7 @@ import {
 function App() {
 
   function RequireAuth({ children }) {
-    var token = localStorage.getItem('token');
+    var token = sessionStorage.getItem('token');
     const location = useLocation();
     
     return token 

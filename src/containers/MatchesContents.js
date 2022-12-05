@@ -13,7 +13,7 @@ function ViewportContent() {
   const [matches, setmatches] = useState([]);
 
   function getUserToken () {
-    var token = localStorage.getItem('token');
+    var token = sessionStorage.getItem('token');
     console.log(token);
 
     const body = {
@@ -33,9 +33,6 @@ function ViewportContent() {
     <Box as="nav" paddingTop='10vh'>
       <HStack justify={'center'} spacing='20vw' onLoad={getUserToken()}>
         <MatchedCompanyCard/>      
-        <List>
-
-        </List>
       </HStack>
     </Box>   
     );

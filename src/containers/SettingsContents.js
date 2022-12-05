@@ -35,7 +35,7 @@ function SettingContents() {
   };
 
   function updatePrefereneces() {
-    var token = localStorage.getItem('token');
+    var token = sessionStorage.getItem('token');
     const body = {
       radius: 32
       // opt-out: "true",
@@ -49,7 +49,7 @@ function SettingContents() {
   };
 
   function resetPreferences() {
-    var token = localStorage.getItem('token');
+    var token = sessionStorage.getItem('token');
     const body = {
       radius: 32
       // opt-out: "true",
@@ -63,7 +63,7 @@ function SettingContents() {
   }
 
   function getPreferences() {
-    var token = localStorage.getItem('token');
+    var token = sessionStorage.getItem('token');
     const body = {
       id: token
     }
