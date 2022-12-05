@@ -1,5 +1,4 @@
 import React from 'react';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ChakraProvider } from '@chakra-ui/react'
 import Header from './components/Header';
 import About from './pages/About';
