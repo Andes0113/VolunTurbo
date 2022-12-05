@@ -38,7 +38,7 @@ urlpatterns = [
 
     # Matching
     path('match/<uuid:id>/', views.match),
-    path('ignore/<uuid:id>/', views.match),
+    path('ignore/<uuid:id>/', views.ignore),
     path('findmatch/', views.findmatch),
     path('matches/', views.get_matches),
 

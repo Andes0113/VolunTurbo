@@ -37,7 +37,7 @@ def get_nearby_organizations(latitude, longitude, max_distance=5):
 
 @api_view(['POST'])
 def update_user_location(request):
-    token = request.META['HTTP_AUTHORIZATION'][13:]
+    token = request.headers['Authorization'][13:]
     user = Token.objects.get(key=token).user
     profile = user.profile
 

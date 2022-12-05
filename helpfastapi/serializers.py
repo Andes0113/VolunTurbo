@@ -16,6 +16,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Organization
 		fields = '__all__'
+		depth = 1
 		filter_fields = ('name', 'isTestData')
 
 
@@ -23,3 +24,4 @@ class ProfileSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Profile
 		fields = '__all__'
+		depth = 1

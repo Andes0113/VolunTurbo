@@ -2,24 +2,28 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
-from ..serializers import OrganizationSerializer
+from ..serializers import OrganizationSerializer, ProfileSerializer, CategoriesSerializer
+from ..models import Categories
 from .locate import get_nearby_organizations
 from django.db.models import F
 
 @api_view(['PUT'])
 def match(request, id):
-    token = request.META['HTTP_AUTHORIZATION'][13:]
+    auth = request.headers['Authorization']
+    token = auth[13:]
     user = Token.objects.get(key=token).user
+    profile = user.profile
+    serializer = ProfileSerializer(profile)
     # Get user profile from user
     # Get organization by its orgid
     # Add organization to user's matched field
     # Add organization to user's seen field
     # Return response indicating success with organization's id
-    return Response(status=status.HTTP_200_OK)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
 def ignore(request, id):
-    token = request.META['HTTP_AUTHORIZATION'][13:]
+    token = request.headers['Authorization'][13:]
     user = Token.objects.get(key=token).user
     # Get user profile from user
     # Get organization by its orgid
@@ -29,7 +33,7 @@ def ignore(request, id):
 
 @api_view(['GET'])
 def get_matches(request):
-    token = request.META['HTTP_AUTHORIZATION'][13:]
+    token = request.headers['Authorization'][13:]
     user = Token.objects.get(key=token).user
     profile = user.profile
 
@@ -41,7 +45,7 @@ def get_matches(request):
 @api_view(['GET'])
 def findmatch(request):
     # Get user and interests
-    token = request.META['HTTP_AUTHORIZATION'][13:]
+    token = request.headers['Authorization'][13:]
     user = Token.objects.get(key=token).user
     profile = user.profile
     interests = profile.interests
@@ -52,25 +56,24 @@ def findmatch(request):
         profile.longitude,
         profile.settings.viewRadius
     ).exclude(
-        seenby=user.id
-    ).exclude(
         isTestData=True
-    ).exclude(
-        approved=False
     )
+    # .exclude(
+    #     seenby=user.id
+    # ).exclude(
+    #     isTestData=True
+    # ).exclude(
+    #     approved=False
+    # )
 
     # Rank Organizations
-    matches = calculate_ranks(organizations, interests)
+    matches = calculate_ranks(organizations, interests).order_by('rank')
+    if matches.count == 0:
+        return Response({"Error": "No Matches Found"}, status=status.HTTP_200_OK)
 
-    # Return highest 2 ranked organizations
-    if matches.count() == 0:
-        return Response({"error": "no matches found"}, status=status.HTTP_200_OK)
-    match1 = OrganizationSerializer(matches[0])
-    if(matches.count() > 1):
-        match2 = OrganizationSerializer(matches[1])
-        return Response({"current": match1.data, "next": match2.data}, status=status.HTTP_200_OK)
-    else:
-        return Response({"current": match1.data}, status=status.HTTP_200_OK)
+    serializer = OrganizationSerializer(matches[:4], many=True)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 def calculate_ranks(organizations, interests):
     # Side note: this just sucks. Try to find a way to change in the future
@@ -94,4 +97,4 @@ def calculate_ranks(organizations, interests):
         F('categories__wildlife') * interests.wildlife +
         F('categories__finance') * interests.finance +
         F('categories__nonprofit') * interests.nonprofit
-    )).order_by('rank')
+    ))

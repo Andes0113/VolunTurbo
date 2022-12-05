@@ -13,8 +13,8 @@ function ViewportContent() {
  
     <Box as="nav">
       <VStack align-content='center' margin='auto'>
-        <Heading size='2xl' width='50vw'  paddingTop={"80px"}>Welcome to Help Fast!</Heading>
-        <Text width='35vw'  paddingTop={"20px"}>Help Fast is a platform to network and become socially involved in your community.</Text>
+        <Heading size='2xl' width='50vw'  paddingTop={"80px"}>Welcome to Volun<i>Turbo</i>!</Heading>
+        <Text width='35vw' paddingTop={"20px"}>Volun<i>Turbo</i> is a platform to network and become socially involved in your community.</Text>
       </VStack>
     </Box>   
     

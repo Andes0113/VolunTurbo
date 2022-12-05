@@ -16,9 +16,9 @@ import {
 function Header() {  
   return (
     <Box as="nav" className='navigation'>
-      <Container paddingTop='1vh' paddingBottom='1vh'>
+      <Container>
         <HStack justify={'center'} spacing='15vw'>
-              <img src={Logo} width={200} height={200}></img> 
+                <img alt="Help Fast Logo" src={Logo} width={150} height={50} />
               <ButtonGroup variant="ghost" spacing={10} size='sm'>
                 <RouteLink to="/match">
                   <Link style={{textDecoration: 'none'}}><Button key={'Match'}>{'Match'}</Button></Link>
