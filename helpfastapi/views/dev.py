@@ -50,13 +50,3 @@ def dev_gettoken(request, id):
     token = Token.objects.get_or_create(user=user)[0]
     serializer = ProfileSerializer(profile)
     return Response({"token": token.key, "profile": serializer.data}, status=status.HTTP_202_ACCEPTED)
-
-@api_view(['PUT'])
-def dev_clearseen(request, id):
-    try: 
-        profile = Profile.objects.get(id=id)
-    except Profile.DoesNotExist:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    profile.seen.clear()
-    profile.matches.clear()
-    return Response(status=status.HTTP_200_OK)

@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
-from ..serializers import OrganizationSerializer, ProfileSerializer, CategoriesSerializer
+from ..serializers import OrganizationSerializer, ProfileSerializer, Profile
 from ..models import Categories, Organization
 from .locate import get_nearby_organizations
 from django.db.models import F
@@ -62,12 +62,25 @@ def findmatch(request):
     )
 
     # Rank Organizations
-    matches = calculate_ranks(organizations, interests).order_by('rank')
+    matches = calculate_ranks(organizations, interests).order_by('-rank')
     if matches.count == 0:
         return Response({"Error": "No Matches Found"}, status=status.HTTP_200_OK)
 
     serializer = OrganizationSerializer(matches[:4], many=True)
 
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['PUT'])
+def clearseen(request):
+    try: 
+        token = request.headers['Authorization'][13:]
+        user = Token.objects.get(key=token).user
+        profile = user.profile
+    except Token.DoesNotExist:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    profile.seen.clear()
+    profile.matches.clear()
+    serializer = ProfileSerializer(profile)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 def calculate_ranks(organizations, interests):

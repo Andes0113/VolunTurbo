@@ -5,20 +5,19 @@ import {
   Text,
   VStack
 } from '@chakra-ui/react'
-import { getLocalUser } from '../calls/localuser';
 import InterestForm from '../components/InterestForm';
+import ResetButton from '../components/ResetButton';
 
 function ProfileContents() {  
-  let user = getLocalUser();
-
+  console.log(sessionStorage.getItem('Bearer Token'));
   return (
-    <Box paddingTop='10vh'>
+    <Box paddingTop='5vh'>
     <HStack justify={'center'} spacing='20vw' >
-        { sessionStorage.getItem('Bearer Token') != null ? (
+        { sessionStorage.getItem('Bearer Token') !== null ? (
           <VStack>
             <Box>
-              <Text>Welcome {user?.firstName}!</Text>
             </Box>
+            <ResetButton />
             <InterestForm />
           </VStack>
         ) : (
