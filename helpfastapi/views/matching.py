@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from ..serializers import OrganizationSerializer, ProfileSerializer, CategoriesSerializer
-from ..models import Categories
+from ..models import Categories, Organization
 from .locate import get_nearby_organizations
 from django.db.models import F
 
@@ -13,12 +13,10 @@ def match(request, id):
     token = auth[13:]
     user = Token.objects.get(key=token).user
     profile = user.profile
+    organization = Organization.objects.get(id=id)
+    profile.matches.add(organization)
+    profile.seen.add(organization)
     serializer = ProfileSerializer(profile)
-    # Get user profile from user
-    # Get organization by its orgid
-    # Add organization to user's matched field
-    # Add organization to user's seen field
-    # Return response indicating success with organization's id
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
@@ -26,11 +24,9 @@ def ignore(request, id):
     token = request.headers['Authorization'][13:]
     user = Token.objects.get(key=token).user
     profile = user.profile
+    organization = Organization.objects.get(id=id)
+    profile.seen.add(organization)
     serializer = ProfileSerializer(profile)
-    # Get user profile from user
-    # Get organization by its orgid
-    # Add organization to user's seen field
-    # Return response indicating success with organization's id
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
@@ -58,7 +54,7 @@ def findmatch(request):
         profile.longitude,
         profile.settings.viewRadius
     ).exclude(
-        seenby=user.id
+        seenby=profile
     ).exclude(
         isTestData=True
     ).exclude(
