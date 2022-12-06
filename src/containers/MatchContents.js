@@ -98,7 +98,7 @@ function MatchContents() {
                     return (
                       category !== 'id' &&
                       organization.categories[category] > 0 && (
-                        <Badge borderRadius="full" px="2" mr="2" colorScheme="teal">
+                        <Badge key={category} borderRadius="full" px="2" mr="2" colorScheme="teal">
                           {category.split('_').join(' ')}
                         </Badge>
                       )

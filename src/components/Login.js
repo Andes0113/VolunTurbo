@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button, 
@@ -6,20 +6,17 @@ import {
 import login from '../calls/auth.js';
 
 function Login() {
+  const [signedIn, setSignedIn] = useState(sessionStorage.getItem('Bearer Token') !== null);
  
   function handleCallbackResponse(response) {
-    console.log("JWT Token: " + response.credential);
-    login(response.credential);
-    document.getElementById("signIn").hidden=true;
-    sessionStorage.setItem('token', response.credential);
-    window.location.reload(true);
+    login(response.credential)
+    setSignedIn(true);
   };
 
   function handleSignOut(event) {
     sessionStorage.removeItem('Bearer Token');
-    document.getElementById("signIn").hidden=false;
-    sessionStorage.removeItem('token');
-    window.location.reload(true);
+    setSignedIn(false);
+    window.location.reload(false);
   };
 
   useEffect(() => {
@@ -42,7 +39,7 @@ function Login() {
 
   return (
     <Box>
-      { sessionStorage.getItem('token') != null ? (
+      { signedIn ? (
         <Button colorScheme='red' onClick={(e) => handleSignOut(e)}>Log Out</Button>             
       ) : (
         <div id='signIn'></div>
