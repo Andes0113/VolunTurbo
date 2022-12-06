@@ -51,6 +51,7 @@ urlpatterns = [
     path('dev/createuser/', views.dev_createuser),
     path('dev/getusertoken/<uuid:id>/', views.dev_gettoken),
     path('dev/approve/<uuid:id>/', views.dev_approveorg),
+    path('dev/clearseen/<uuid:id>/', views.dev_clearseen),
 
     # React Linking
 	re_path('.*', TemplateView.as_view(template_name='index.html')),
