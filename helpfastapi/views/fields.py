@@ -40,10 +40,11 @@ def user_interests_view(request):
         serializer = CategoriesSerializer(interests)
         return Response(serializer.data)
     elif request.method == 'PUT':
-        serializer = PreferencesSerializer(interests, data=request.data)
+        serializer = CategoriesSerializer(interests, data=request.data['interests'])
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            pserializer = ProfileSerializer(profile)
+            return Response(pserializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT'])
