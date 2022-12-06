@@ -15,9 +15,9 @@ import { UilUserCircle, UilSetting, UilStar, UilHeart, UilNotes } from '@iconsco
 function Header() {  
   return (
     <Box as="nav" className='navigation'>
-      <Container paddingTop='1vh' paddingBottom='1vh'>
+      <Container>
         <HStack justify={'center'} spacing='15vw'>
-              <img src={Logo} width={200} height={200}></img> 
+              <img alt="Help Fast Logo" src={Logo} width={150} height={50} />
               <ButtonGroup variant="ghost" spacing={1}>
                 <RouteLink to="/match">
                   <Button key={'Match'}><Icon color={'red'} w={6} h={6} as={UilHeart }/></Button>

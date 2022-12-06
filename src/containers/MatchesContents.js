@@ -1,41 +1,31 @@
 import React, { useState } from 'react';
-import {
-  Box, 
-  HStack,
-  List,
-  Text
-} from '@chakra-ui/react'
+import { Box, HStack } from '@chakra-ui/react';
 import MatchedCompanyCard from '../components/MatchedCompanyCard';
-import axios from 'axios';
+import { getMatches } from '../calls/userinfo';
+import { useEffect } from 'react';
 
-function ViewportContent() {  
+function ViewportContent() {
+  const [matches, setMatches] = useState([
+    // {
+    //   name: "Test",
+    //   categories: [{"Test1": 0}, {"Test2": 1}],
+    //   description: "fjkasdjfldsjafkajs"
+    // }
+  ]);
 
-  const [matches, setmatches] = useState([]);
-
-  function getUserToken () {
-    var token = sessionStorage.getItem('token');
-    console.log(token);
-
-    const body = {
-      id: token
-    }
-    axios.post('auth/login/', body)
-    .then((res) => {
-      // console.log(res);
-      setmatches(res.data.matches);
-    }, (error) => {
-      console.log(error);
-    });
-  }
-
+  useEffect(() => {
+    getMatches().then((data) => setMatches(data));
+  }, []) 
 
   return (
-    <Box as="nav" paddingTop='10vh'>
-      <HStack justify={'center'} spacing='20vw' onLoad={getUserToken()}>
-        <MatchedCompanyCard/>      
+    <Box as="nav" paddingTop="10vh">
+      <HStack justify={'center'} spacing="20vw">
+        {matches.map((match, idx) => {
+          return <MatchedCompanyCard organization={match} key={idx} />;
+        })}
       </HStack>
-    </Box>   
-    );
+    </Box>
+  );
 }
 
 export default ViewportContent;

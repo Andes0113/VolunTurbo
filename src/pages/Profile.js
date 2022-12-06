@@ -6,7 +6,7 @@ import {
 
 function Profile() {  
     return (
-      <Box>
+      <Box margin={'auto'} width={'90vh'}>
         <ProfileContents />
         <Login />
       </Box>

@@ -14,14 +14,11 @@ import {
   Navigate,
   useLocation
 } from "react-router-dom";
-import { 
-  Box
-} from '@chakra-ui/react'
 
 function App() {
 
   function RequireAuth({ children }) {
-    var token = sessionStorage.getItem('token');
+    var token = sessionStorage.getItem('Bearer Token');
     const location = useLocation();
     
     return token 
@@ -33,7 +30,6 @@ function App() {
       <ChakraProvider>
         <Router basename='/'>
           <Header />
-          <Box margin={'auto'} width={'90vh'}>
             <Routes>
                 <Route path="/" exact element={
                   <RequireAuth>
@@ -53,7 +49,6 @@ function App() {
                   </RequireAuth>}/>
                 <Route path="/login" element={<Profile />}/>
             </Routes>
-          </Box>
         </Router>
       </ChakraProvider>
   );

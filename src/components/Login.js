@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react';
 import {
   Button, 
 } from '@chakra-ui/react'
+import login from '../calls/auth.js';
 
 function Login() {
   const [profile, setProfile] = useState({});
  
   function handleCallbackResponse(response) {
     console.log("JWT Token: " + response.credential);
-    sessionStorage.setItem('token', response.credential);
+    login(response.credential);
     setProfile(response.credential);
     document.getElementById("signIn").hidden=true;
   };
 
   function handleSignOut(event) {
-    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('Bearer Token');
     setProfile({});
     document.getElementById("signIn").hidden=false;
   };
