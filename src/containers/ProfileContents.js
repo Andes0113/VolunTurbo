@@ -7,13 +7,13 @@ import {
 } from '@chakra-ui/react'
 import InterestForm from '../components/InterestForm';
 import ResetButton from '../components/ResetButton';
+import { getLocalUser } from '../calls/localuser';
 
 function ProfileContents() {  
-  console.log(sessionStorage.getItem('Bearer Token'));
   return (
     <Box paddingTop='5vh'>
     <HStack justify={'center'} spacing='20vw' >
-        { sessionStorage.getItem('Bearer Token') !== null ? (
+        { sessionStorage.getItem('Bearer Token') !== null && getLocalUser().interests ? (
           <VStack>
             <Box>
             </Box>

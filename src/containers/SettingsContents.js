@@ -9,6 +9,7 @@ import {
   HStack
 } from '@chakra-ui/react'
 import axios from 'axios';
+import { setLocalUser } from '../calls/localuser';
 
 function SettingContents() {  
 
@@ -42,7 +43,7 @@ function SettingContents() {
     };
     axios.put('auth/login/', body)
     .then((res) => {
-      console.log(res.data.profile.settings);
+      setLocalUser(res.data.profile)
     }, (error) => {
       console.log(error);
     });
