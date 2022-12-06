@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Text,
@@ -7,7 +7,7 @@ import {
   VStack
 } from '@chakra-ui/react';
 import InterestSlider from './InterestSlider';
-import { getInterests, updateInterests } from '../calls/interests';
+import { updateInterests } from '../calls/interests';
 import { getLocalUser } from '../calls/localuser';
 
 const categories = [
@@ -36,10 +36,9 @@ const categories = [
   'Women',
   'Wildlife',
 ];
-let interests = {};
 
 const InterestForm = () => {
-  const [interests, setInterests] = useState(getLocalUser().interests);
+  const [interests, ] = useState(getLocalUser().interests);
 
   const handleSliderChange = (value, category) => {
     interests[category.toLowerCase().split(' ').join('_')] = value;

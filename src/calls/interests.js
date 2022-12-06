@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getLocalUser, setLocalUser } from './localuser';
+import { setLocalUser } from './localuser';
 
 export function updateInterests(interests) {
   let token = sessionStorage.getItem('Bearer Token');
