@@ -9,7 +9,7 @@ import json
 @api_view(['POST'])
 def createorg(request):
     body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
+    body = json.loads(body_unicode)["data"]
 
     categories = Categories.objects.create()
     if "categories" in body:

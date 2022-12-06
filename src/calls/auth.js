@@ -1,18 +1,18 @@
 import axios from 'axios';
+import { setLocalUser } from './localuser';
 
 export default function login(googleToken) {
-  axios
+  return axios
     .post('auth/login/', {
       id: googleToken,
     })
     .then((res) => {
-      console.log(res);
+      setLocalUser(res.data.profile);
       sessionStorage.setItem('Bearer Token', res.data.token);
     })
-    .then(navigator.geolocation.getCurrentPosition(setPosition));
 }
 
-async function setPosition(position) {
+export async function setPosition(position) {
   const token = sessionStorage.getItem('Bearer Token');
   axios.post(
     'updatelocation/',

@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/interests/', views.user_interests_view),
     path('api/categories/<uuid:id>/', views.org_categories_view),
     path('api/createorg/', views.createorg),
+    path('api/getuser/', views.get_user),
 
     # Auth
     path('auth/login/', views.google_login),

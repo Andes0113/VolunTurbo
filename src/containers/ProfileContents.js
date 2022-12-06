@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Box, 
   HStack,
   Text
 } from '@chakra-ui/react'
-// import axios from 'axios';
+import { getLocalUser } from '../calls/localuser';
 
 function ProfileContents() {  
-  const [user, setuser] = useState({});
+  let user = getLocalUser();
 
   return (
     <Box as="nav" paddingTop='10vh'>
     <HStack justify={'center'} spacing='20vw' >
-        { sessionStorage.getItem('token') != null ? (
+        { sessionStorage.getItem('Bearer Token') != null ? (
           <Box>
-            <Text>Welcome {user.firstName}!</Text>         
+            <Text>Welcome {user?.firstName}!</Text>         
           </Box>
         ) : (
           <Box>

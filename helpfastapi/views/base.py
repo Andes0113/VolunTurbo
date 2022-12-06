@@ -1,10 +1,25 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
 from django_filters.rest_framework import DjangoFilterBackend
 from ..serializers import OrganizationSerializer, ProfileSerializer
 from ..models import Organization, Profile
 from django.views import View
 from django.http import HttpResponse, HttpResponseNotFound
+from django.contrib.auth.models import User
 import os
+
+@api_view(['GET'])
+def get_user(request):
+    try:
+        token = request.headers['Authorization'][13:]
+        user = Token.objects.get(key=token).user
+        profile = user.profile
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = ProfileSerializer(profile)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 class OrganizationView(viewsets.ModelViewSet):
 	serializer_class = OrganizationSerializer
