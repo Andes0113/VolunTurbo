@@ -38,6 +38,8 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS=['http://localhost:8000/', 'https://volunturbo.herokuapp.com/']
+
 
 # Application definition
 

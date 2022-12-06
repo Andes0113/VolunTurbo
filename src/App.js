@@ -23,7 +23,7 @@ function App() {
     ?  children
     : <Navigate to="/login" replace state={{ path: location.pathname }} />;
   }
-
+  
   return (
       <ChakraProvider>
         <Router basename='/'>

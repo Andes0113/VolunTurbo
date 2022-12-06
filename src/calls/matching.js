@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setLocalUser } from "./localuser";
 
 export function ignore(organization){
     let token = sessionStorage.getItem('Bearer Token');
@@ -7,7 +8,8 @@ export function ignore(organization){
         headers: {
             'Authorization': `Bearer Token ${token}`,
         }
-    })
+    }).then(res => res.data)
+    .then(data => setLocalUser(data))
 }
 
 export function match(organization){
@@ -17,7 +19,8 @@ export function match(organization){
         headers: {
             'Authorization': `Bearer Token ${token}`,
         }
-    })
+    }).then((res) => res.data)
+    .then(data => {console.log(data); setLocalUser(data)})
 }
 
 export function findMatches(){
@@ -26,6 +29,6 @@ export function findMatches(){
         headers: {
             'Authorization': `Bearer Token ${token}`,
         }
-    }).then(res => res.data)
+    }).then((res) => res.data)
     return data;
 }

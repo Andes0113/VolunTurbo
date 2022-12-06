@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box,
   Button, 
+  Center,
 } from '@chakra-ui/react'
-import login from '../calls/auth.js';
+import login, { setPosition } from '../calls/auth.js';
 
 function Login() {
   const [signedIn, setSignedIn] = useState(sessionStorage.getItem('Bearer Token') !== null);
  
   function handleCallbackResponse(response) {
-    login(response.credential)
+    login(response.credential).then(() => 
+      window.location.reload()
+    )
     setSignedIn(true);
   };
 
   function handleSignOut(event) {
     sessionStorage.removeItem('Bearer Token');
+    sessionStorage.removeItem('user');
     setSignedIn(false);
     window.location.reload(false);
   };
 
-  useEffect(() => {
+  function handleGoogle() {
     window.google.accounts.id.initialize({
       client_id: '37984234294-psrdnv52s1a2c5vqpff046l9rs7scho4.apps.googleusercontent.com',
       callback: handleCallbackResponse
-    });
+    }, []);
 
     
     window.google.accounts.id.renderButton( document.getElementById("signIn"), {
@@ -34,11 +37,23 @@ function Login() {
         shape: "rectangle",
       }
     );
+  }
 
+  useEffect(() => {
+    if(signedIn){
+      navigator.geolocation.getCurrentPosition(setPosition)
+    }
+    const googleScript = document.getElementById('google-gsi-script');
+    if(window.google){
+      handleGoogle();
+    }
+    googleScript.addEventListener('load', () => {
+      handleGoogle();
+    })
     }, []);
 
   return (
-    <Box>
+    <Center>
       { signedIn ? (
         <Button colorScheme='red' onClick={(e) => handleSignOut(e)}>Log Out</Button>             
       ) : (
@@ -46,7 +61,7 @@ function Login() {
       )
       }
 
-    </Box>
+    </Center>
    
   );
 }
