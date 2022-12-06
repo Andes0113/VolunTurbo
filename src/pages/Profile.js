@@ -1,14 +1,17 @@
 import ProfileContents from '../containers/ProfileContents'
 import Login from '../components/Login'
 import {
-  Box
+  Box,
+  Text
 } from '@chakra-ui/react'
 
 function Profile() {  
     return (
       <Box margin={'auto'} width={'90vh'}>
         <ProfileContents />
-        <Login />
+        <Box paddingTop={'10vh'} width="100%">
+          <Login />
+        </Box>
       </Box>
     );
   }

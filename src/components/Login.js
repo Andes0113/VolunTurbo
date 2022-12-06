@@ -1,23 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
+  Box,
   Button, 
 } from '@chakra-ui/react'
 import login from '../calls/auth.js';
 
 function Login() {
-  const [profile, setProfile] = useState({});
  
   function handleCallbackResponse(response) {
     console.log("JWT Token: " + response.credential);
     login(response.credential);
     setProfile(response.credential);
     document.getElementById("signIn").hidden=true;
+    sessionStorage.setItem('token', response.credential);
+    window.location.reload(true);
   };
 
   function handleSignOut(event) {
     sessionStorage.removeItem('Bearer Token');
     setProfile({});
     document.getElementById("signIn").hidden=false;
+    sessionStorage.removeItem('token');
+    window.location.reload(true);
   };
 
   useEffect(() => {
@@ -27,24 +31,27 @@ function Login() {
     });
 
     
-    window.google.accounts.id.renderButton(
-      document.getElementById("signIn"), {
-        theme: "outline", 
+    window.google.accounts.id.renderButton( document.getElementById("signIn"), {
+        type: "standard",
+        theme: "outline",
         size: "large",
-      });
+        text: "continue_with",
+        shape: "rectangle",
+      }
+    );
 
-    window.google.accounts.id.prompt();
     }, []);
 
   return (
-    <div>
-      <div id='signIn'></div>   
-      
-      { Object.keys(profile).length != 0 &&
-        <Button onClick={(e) => handleSignOut(e)}>Log Out</Button>
+    <Box>
+      { sessionStorage.getItem('token') != null ? (
+        <Button colorScheme='red' onClick={(e) => handleSignOut(e)}>Log Out</Button>             
+      ) : (
+        <div id='signIn'></div>
+      )
       }
 
-    </div>
+    </Box>
    
   );
 }

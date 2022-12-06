@@ -85,11 +85,10 @@ function ViewportContent() {
     <VStack  justify={'center'}>
       <h1>{window.user}</h1>
       <Heading size='2xl' paddingTop={"10vh"} justifyContent='center' textAlign={'center'}>
-        Welcome to Help Fast!
+      Welcome to Volun<i>Turbo</i>!
       </Heading>
       <Text width='30vw' paddingTop={"3vh"} justifyContent='center' textAlign={'center'}>
-        Help Fast is a platform to network and become 
-        involved in your community. Join us and help us make a change. 
+      Volun<i>Turbo</i> is a platform to network and become socially involved in your community.
       </Text>
       <HStack paddingTop={'5vh'}>
         <RouteLink onClick={onOpen}>
@@ -197,6 +196,15 @@ function ViewportContent() {
         </RouteLink>
       </HStack>
     </VStack>
+=========
+ 
+    <Box as="nav">
+      <VStack align-content='center' margin='auto'>
+        <Heading size='2xl' width='50vw'  paddingTop={"80px"}>Welcome to Volun<i>Turbo</i>!</Heading>
+        <Text width='35vw' paddingTop={"20px"}>Volun<i>Turbo</i> is a platform to network and become socially involved in your community.</Text>
+      </VStack>
+    </Box>   
+>>>>>>>>> Temporary merge branch 2
     
     );
 }

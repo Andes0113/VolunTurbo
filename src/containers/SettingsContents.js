@@ -77,7 +77,7 @@ function SettingContents() {
   }
 
   return (
-    <Box as="nav" onLoad={getPreferences()}>
+    <Box as="nav">
       <Grid templateColumns='repeat(2, 1fr)' gap={4} paddingTop='10vh' justify={'center'}> 
         <FormLabel htmlFor='name'>Share my data with organizations.</FormLabel>
         <Box>
