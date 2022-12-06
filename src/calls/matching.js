@@ -20,7 +20,7 @@ export function match(organization){
             'Authorization': `Bearer Token ${token}`,
         }
     }).then((res) => res.data)
-    .then(data => {console.log(data); setLocalUser(data)})
+    .then(data => setLocalUser(data))
 }
 
 export function findMatches(){

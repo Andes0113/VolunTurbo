@@ -44,7 +44,6 @@ const InterestForm = () => {
     interests[category.toLowerCase().split(' ').join('_')] = value;
     updateInterests(interests);
   }
-
   return (
     <Box>
       <Center mt="4vh" mb="15vh">
@@ -58,7 +57,7 @@ const InterestForm = () => {
             }}
             gap={6}
           >
-            {categories.map((category) => (
+            {getLocalUser().interests && categories.map((category) => (
               <InterestSlider setValue={handleSliderChange} defaultValue={interests[category.toLowerCase().split(' ').join('_')]} category={category} key={category} />
             ))}
           </Grid>
