@@ -20,10 +20,11 @@ def user_preferences_view(request):
         serializer = PreferencesSerializer(preferences)
         return Response(serializer.data)
     elif request.method == 'PUT':
-        serializer = PreferencesSerializer(preferences, data=request.data)
+        serializer = PreferencesSerializer(preferences, data=request.data['settings'])
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            pserializer = ProfileSerializer(profile)
+            return Response(pserializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT'])

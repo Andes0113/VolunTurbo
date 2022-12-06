@@ -4,10 +4,10 @@ import {
   Center,
 } from '@chakra-ui/react'
 import login, { setPosition } from '../calls/auth.js';
+import { getLocalUser } from '../calls/localuser.js';
 
 function Login() {
-  const [signedIn, setSignedIn] = useState(sessionStorage.getItem('Bearer Token') !== null);
- 
+  const [signedIn, setSignedIn] = useState(getLocalUser() !== null);
   function handleCallbackResponse(response) {
     login(response.credential).then(() => 
       window.location.reload()
