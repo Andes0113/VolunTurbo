@@ -10,7 +10,6 @@ function Login() {
   function handleCallbackResponse(response) {
     console.log("JWT Token: " + response.credential);
     login(response.credential);
-    setProfile(response.credential);
     document.getElementById("signIn").hidden=true;
     sessionStorage.setItem('token', response.credential);
     window.location.reload(true);
@@ -18,7 +17,6 @@ function Login() {
 
   function handleSignOut(event) {
     sessionStorage.removeItem('Bearer Token');
-    setProfile({});
     document.getElementById("signIn").hidden=false;
     sessionStorage.removeItem('token');
     window.location.reload(true);
