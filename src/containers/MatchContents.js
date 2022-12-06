@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import {
   Box,
-  Badge,
   Button,
   VStack,
   HStack,
   Flex,
-  Link,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -17,11 +15,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { ignore, match, findMatches } from '../calls/matching.js';
-
-let organizations = [];
+import CompanyCard from '../components/CompanyCard.js';
 
 function MatchContents() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [organizations, setOrganizations] = useState([]);
   const [index, setIndex] = useState(0);
   const [maxIndex, setMaxIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -30,7 +28,7 @@ function MatchContents() {
   React.useEffect(() => {
     if (organizations.length === 0) {
       findMatches().then((data) => {
-        organizations = data;
+        setOrganizations(data);
         setLoading(false);
       });
     } else {
@@ -44,7 +42,7 @@ function MatchContents() {
       setIndex(index + 1);
     } else {
       findMatches().then((data) => {
-        organizations = organizations.concat(data.slice(1));
+        setOrganizations(organizations.concat(data.slice(1)));
         if (maxIndex === index) setMaxIndex(maxIndex + 1);
         setIndex(index + 1);
       });
@@ -69,60 +67,11 @@ function MatchContents() {
     >
       <VStack spacing={'5'}>
         <Box p="6"></Box>
-        <Box
-          width={'750px'}
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-          bgColor="white"
-        >
-          <Box p="6">
-            <Box
-              mt="1"
-              fontWeight="semibold"
-              fontSize="xl"
-              as="h4"
-              lineHeight="tight"
-              noOfLines={1}
-            >
-              {loading && 'Loading...'}
-              {organization && organization.name}
-              {!loading && index >= organizations.length && (
-                <>
-                  <Box>{'No more organizations found in your area :('}</Box>
-                </>
-              )}
-            </Box>
-            <Box>{organization && organization.address}</Box>
-            <Box pt="2" display="flex" alignItems="baseline">
-              {organization &&
-                Object.keys(organization.categories).map((category) => {
-                  return (
-                    category !== 'id' &&
-                    organization.categories[category] > 0 && (
-                      <Badge
-                        key={category}
-                        borderRadius="full"
-                        px="2"
-                        mr="2"
-                        colorScheme="teal"
-                      >
-                        {category.split('_').join(' ')}
-                      </Badge>
-                    )
-                  );
-                })}
-            </Box>
-            <Box pt="2">{organization && organization.description}</Box>
-            <Box>
-              {organization?.website && (
-                <Link color="teal.500" href={organization?.website}>
-                  Learn More
-                </Link>
-              )}
-            </Box>
-          </Box>
-        </Box>
+        <CompanyCard
+          organization={organization}
+          empty={!loading && index >= organizations.length}
+          loading={loading}
+        />
         <VStack justify={'center'} spacing="5">
           {index < organizations.length && (
             <HStack justify="center" spacing={'20'}>

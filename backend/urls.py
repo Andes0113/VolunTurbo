@@ -33,6 +33,7 @@ urlpatterns = [
     path('api/categories/<uuid:id>/', views.org_categories_view),
     path('api/createorg/', views.createorg),
     path('api/getuser/', views.get_user),
+    path('api/clearseen/', views.clearseen),
 
     # Auth
     path('auth/login/', views.google_login),
@@ -51,7 +52,6 @@ urlpatterns = [
     path('dev/createuser/', views.dev_createuser),
     path('dev/getusertoken/<uuid:id>/', views.dev_gettoken),
     path('dev/approve/<uuid:id>/', views.dev_approveorg),
-    path('dev/clearseen/<uuid:id>/', views.dev_clearseen),
 
     # React Linking
 	re_path('.*', TemplateView.as_view(template_name='index.html')),

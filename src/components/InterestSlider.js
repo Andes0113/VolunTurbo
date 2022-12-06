@@ -17,7 +17,6 @@ const labelStyles = {
 };
 
 const InterestSlider = ({ defaultValue, category, setValue }) => {
-    console.log(defaultValue);
   return (
     <GridItem key={category}>
       <Text mt="5vh">{category}</Text>
