@@ -195,17 +195,7 @@ function ViewportContent() {
           </Link>
         </RouteLink>
       </HStack>
-    </VStack>
-=========
- 
-    <Box as="nav">
-      <VStack align-content='center' margin='auto'>
-        <Heading size='2xl' width='50vw'  paddingTop={"80px"}>Welcome to Volun<i>Turbo</i>!</Heading>
-        <Text width='35vw' paddingTop={"20px"}>Volun<i>Turbo</i> is a platform to network and become socially involved in your community.</Text>
-      </VStack>
-    </Box>   
->>>>>>>>> Temporary merge branch 2
-    
+    </VStack>    
     );
 }
 
