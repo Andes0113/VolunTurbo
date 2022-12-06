@@ -19,7 +19,6 @@ function App() {
   function RequireAuth({ children }) {
     var token = sessionStorage.getItem('Bearer Token');
     const location = useLocation();
-    
     return token 
     ?  children
     : <Navigate to="/login" replace state={{ path: location.pathname }} />;

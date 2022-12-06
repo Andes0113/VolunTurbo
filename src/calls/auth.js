@@ -12,7 +12,7 @@ export default function login(googleToken) {
     .then(navigator.geolocation.getCurrentPosition(setPosition));
 }
 
-function setPosition(position) {
+async function setPosition(position) {
   const token = sessionStorage.getItem('Bearer Token');
   axios.post(
     'updatelocation/',

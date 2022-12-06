@@ -4,23 +4,10 @@ import {
   HStack,
   Text
 } from '@chakra-ui/react'
-import axios from 'axios';
+// import axios from 'axios';
 
 function ProfileContents() {  
   const [user, setuser] = useState({});
-
-  var token = sessionStorage.getItem('token');
-  
-  useEffect(() => {
-    axios.post('auth/login/', {
-      id: token
-    })
-    .then((res) => {
-      setuser(res.data.profile);
-    }, (error) => {
-      console.log(error);
-    });
-  }, []);    
 
   return (
     <Box as="nav" paddingTop='10vh'>

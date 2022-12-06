@@ -11,7 +11,6 @@ import {
 
 
 function MatchedCompanyCard({organization}) {
-  console.log(organization);
   return (
     <Box
         height='10vh'

@@ -20,6 +20,8 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
 dotenv_file = os.path.join(BASE_DIR, ".env")
 if os.path.isfile(dotenv_file):
 	dotenv.load_dotenv(dotenv_file)
@@ -32,7 +34,7 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = 'django-insecure-i*^v4-*u8lz0&&=r*w$bfc83ci@gk1jzu%z9&lu6biq#dh#2sn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
