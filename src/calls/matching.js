@@ -1,27 +1,30 @@
 import axios from "axios";
 
 export function ignore(organization){
+    let token = sessionStorage.getItem('Bearer Token');
     axios.put(`/ignore/${organization.id}/`, {},
     {
         headers: {
-            'Authorization': 'Bearer Token 07268cfdc9eb7bbec423ca5f2ef60b30fe45825c',
+            'Authorization': `Bearer Token ${token}`,
         }
     })
 }
 
 export function match(organization){
+    let token = sessionStorage.getItem('Bearer Token');
     axios.put(`/match/${organization.id}/`, {},
     {
         headers: {
-            'Authorization': 'Bearer Token 07268cfdc9eb7bbec423ca5f2ef60b30fe45825c',
+            'Authorization': `Bearer Token ${token}`,
         }
     })
 }
 
 export function findMatches(){
+    let token = sessionStorage.getItem('Bearer Token');
     const data = axios.get(`/findmatch/`, {
         headers: {
-            'Authorization': 'Bearer Token 2bf4a5e0b8449c09da5eedc5f5fa455c43a09fa3',
+            'Authorization': `Bearer Token ${token}`,
         }
     }).then(res => res.data)
     return data;

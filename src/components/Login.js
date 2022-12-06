@@ -1,72 +1,58 @@
-import React, { useState, useEffect } from 'react';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import { gapi} from 'gapi-script';
+import React, { useEffect } from 'react';
 import {
   Box,
-  Button,
+  Button, 
 } from '@chakra-ui/react'
-import axios from 'axios';
+import login from '../calls/auth.js';
 
 function Login() {
+ 
+  function handleCallbackResponse(response) {
+    console.log("JWT Token: " + response.credential);
+    login(response.credential);
+    setProfile(response.credential);
+    document.getElementById("signIn").hidden=true;
+    sessionStorage.setItem('token', response.credential);
+    window.location.reload(true);
+  };
 
-  const [ profile, setProfile ] = useState(null);
-  const clientId = '37984234294-psrdnv52s1a2c5vqpff046l9rs7scho4.apps.googleusercontent.com';
-
-  window.user = profile;
+  function handleSignOut(event) {
+    sessionStorage.removeItem('Bearer Token');
+    setProfile({});
+    document.getElementById("signIn").hidden=false;
+    sessionStorage.removeItem('token');
+    window.location.reload(true);
+  };
 
   useEffect(() => {
-      const initClient = () => {
-          gapi.client.init({
-              clientId: clientId,
-              scope: ''
-          });
-      };
-      gapi.load('client:auth2', initClient);
-  });
-  
-  const onSuccess = (res) => {
-      let id_token = res.getAuthResponse().id_token;
-      setProfile(res.profileObj);
-      // console.log("ID TOKEN: " + id_token);
-  };
-  
-  const onFailure = (err) => {
-      console.log('failed', err);
-  };
-  
-  const logOut = () => {
-      setProfile(null);
-  };
-  console.log(profile);
+    window.google.accounts.id.initialize({
+      client_id: '37984234294-psrdnv52s1a2c5vqpff046l9rs7scho4.apps.googleusercontent.com',
+      callback: handleCallbackResponse
+    });
+
+    
+    window.google.accounts.id.renderButton( document.getElementById("signIn"), {
+        type: "standard",
+        theme: "outline",
+        size: "large",
+        text: "continue_with",
+        shape: "rectangle",
+      }
+    );
+
+    }, []);
+
   return (
-      <div>
-          {profile ? (
-              <GoogleLogout
-              clientId={clientId} 
-              onLogoutSuccess={logOut}   
-              isSignedIn={false}
-              render={renderProps => (
-                <Button colorScheme='red' onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                  Log Out
-                </Button>
-              )}        
-            />
-            
-          ) : (
-              <GoogleLogin 
-              clientId={clientId}
-              onSuccess={onSuccess}
-              onFailure={onFailure}
-              cookiePolicy={'single_host_origin'}
-              isSignedIn={true}
-              render={renderProps => (
-                <Button colorScheme='green' onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                  Log In
-                </Button>
-              )} 
-              />            
-          )}
-      </div>
+    <Box>
+      { sessionStorage.getItem('token') != null ? (
+        <Button colorScheme='red' onClick={(e) => handleSignOut(e)}>Log Out</Button>             
+      ) : (
+        <div id='signIn'></div>
+      )
+      }
+
+    </Box>
+   
   );
 }
 

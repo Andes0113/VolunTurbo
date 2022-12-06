@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Badge,
@@ -63,7 +62,6 @@ function MatchContents() {
   };
 
   return (
-    <div>
       <Flex
         bgGradient="linear(to-t, green.300, blue.200, blue.400)"
         justify="space-around"
@@ -180,7 +178,6 @@ function MatchContents() {
           </ModalContent>
         </Modal>
       </Flex>
-    </div>
   );
 }
 

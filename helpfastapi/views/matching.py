@@ -25,11 +25,13 @@ def match(request, id):
 def ignore(request, id):
     token = request.headers['Authorization'][13:]
     user = Token.objects.get(key=token).user
+    profile = user.profile
+    serializer = ProfileSerializer(profile)
     # Get user profile from user
     # Get organization by its orgid
     # Add organization to user's seen field
     # Return response indicating success with organization's id
-    return Response(status=status.HTTP_200_OK)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def get_matches(request):
@@ -56,15 +58,12 @@ def findmatch(request):
         profile.longitude,
         profile.settings.viewRadius
     ).exclude(
+        seenby=user.id
+    ).exclude(
         isTestData=True
+    ).exclude(
+        approved=False
     )
-    # .exclude(
-    #     seenby=user.id
-    # ).exclude(
-    #     isTestData=True
-    # ).exclude(
-    #     approved=False
-    # )
 
     # Rank Organizations
     matches = calculate_ranks(organizations, interests).order_by('rank')

@@ -40,10 +40,8 @@ def update_user_location(request):
     token = request.headers['Authorization'][13:]
     user = Token.objects.get(key=token).user
     profile = user.profile
-
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
-
     if "latitude" in body:
         latitude = body["latitude"]
         longitude = body["longitude"]

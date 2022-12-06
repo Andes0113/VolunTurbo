@@ -1,8 +1,13 @@
 import SettingContents from '../containers/SettingsContents'
-
+import { 
+    Box
+  } from '@chakra-ui/react'
+  
 function Settings() {  
     return (
-        <SettingContents />
+        <Box margin={'auto'} width={'90vh'}>
+            <SettingContents />
+        </Box>
     );
   }
   
