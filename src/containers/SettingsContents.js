@@ -1,120 +1,82 @@
 import React, { useState } from 'react';
 import {
-  Box, 
+  Box,
   Grid,
   FormLabel,
-  Input,
   Checkbox,
   Button,
-  HStack
-} from '@chakra-ui/react'
-import axios from 'axios';
-import { setLocalUser } from '../calls/localuser';
+  HStack,
+  NumberInput,
+  NumberInputField
+} from '@chakra-ui/react';
+import { getLocalUser } from '../calls/localuser';
+import { updateSettings } from '../calls/settings';
 
-function SettingContents() {  
+function SettingContents() {
+  const [sendUserData, setUserData] = useState(
+    getLocalUser().settings.sendUserData
+  );
+  const [viewRadius, setViewRadius] = useState(
+    getLocalUser().settings.viewRadius
+  );
 
-  const [userinfo, setUserInfo] = useState({
-    categories: [],
-    response: [],
-  });
-  
-  const handleChange = (e) => {
-    const { value, checked } = e.target;
-    const { categories } = userinfo;
-    if (checked) {
-      setUserInfo({
-        categories: [...categories, value],
-        response: [...categories, value],
-      });
-    }
-    else {
-      setUserInfo({
-        categories: categories.filter((e) => e !== value),
-        response: categories.filter((e) => e !== value),
-      });
-    }
+  const resetPreferences = () => {
+    // updateSettings({
+    //   sendUserData: false,
+    //   viewRadius: 5
+    // })
   };
-
-  function updatePrefereneces() {
-    var token = sessionStorage.getItem('token');
-    const body = {
-      radius: 32
-      // opt-out: "true",
-    };
-    axios.put('auth/login/', body)
-    .then((res) => {
-      setLocalUser(res.data.profile)
-    }, (error) => {
-      console.log(error);
-    });
-  };
-
-  function resetPreferences() {
-    var token = sessionStorage.getItem('token');
-    const body = {
-      radius: 32
-      // opt-out: "true",
-    };
-    axios.put('auth/login/', body)
-    .then((res) => {
-      console.log(res.data.profile.settings);
-    }, (error) => {
-      console.log(error);
-    });
-  }
-
-  function getPreferences() {
-    var token = sessionStorage.getItem('token');
-    const body = {
-      id: token
+  const updatePreferences = () => {
+    let settings = {
+      sendUserData: Boolean(sendUserData),
+      viewRadius: viewRadius
     }
-    axios.post('auth/login/', body)
-    .then((res) => {
-      console.log(res.data.profile.settings);
-    }, (error) => {
-      console.log(error);
-    });
-
-  }
+    updateSettings(settings);
+  };
 
   return (
     <Box as="nav">
-      <Grid templateColumns='repeat(2, 1fr)' gap={4} paddingTop='10vh' justify={'center'}> 
-        <FormLabel htmlFor='name'>Share my data with organizations.</FormLabel>
+      <Grid
+        templateColumns="repeat(2, 1fr)"
+        gap={4}
+        paddingTop="10vh"
+        justify={'center'}
+      >
+        <FormLabel htmlFor="name">Share my data with organizations.</FormLabel>
         <Box>
           <Checkbox
-            id='sendUserData'
+            onChange={setUserData}
+            id="sendUserData"
+            value={sendUserData}
           />
         </Box>
-        <FormLabel htmlFor='email'>Search radius.</FormLabel>
+        <FormLabel htmlFor="email">Search Radius</FormLabel>
         <Box>
-          <Input
-            id='viewRadius'
-          />
+          <NumberInput
+            value={viewRadius}
+            onChange={setViewRadius}
+            id="viewRadius"
+          >
+            <NumberInputField />
+          </NumberInput>
         </Box>
       </Grid>
-      <HStack paddingTop={'30vh'} justifyContent='right'> 
-      <Button mr={3} 
-              onClick={ () => {
-                resetPreferences();
-                handleChange();
-              }}
-              colorScheme='green'>
-              Reset
-      </Button>
-      <Button mr={3} 
-              onClick={ () => {
-                updatePrefereneces();
-                handleChange();
-              }}
-              colorScheme='blue'>
-              Apply
+      <HStack paddingTop={'30vh'} justifyContent="right">
+        <Button
+          mr={3}
+          onClick={() => {
+            resetPreferences();
+          }}
+          colorScheme="green"
+        >
+          Reset
+        </Button>
+        <Button mr={3} onClick={updatePreferences} colorScheme="blue">
+          Apply
         </Button>
       </HStack>
-   
-
     </Box>
-    );
+  );
 }
 
 export default SettingContents;
