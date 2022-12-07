@@ -30,6 +30,6 @@ export function clearSeen(){
         headers: {
             Authorization: `Bearer Token ${token}`
         }
-    }).then((res) => {console.log(res); setLocalUser(res)})
+    }).then((res) => {setLocalUser(res.data)})
     return data;
 }
