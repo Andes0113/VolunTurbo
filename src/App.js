@@ -18,7 +18,7 @@ import { getLocalUser } from './calls/localuser';
 function App() {
 
   function RequireAuth({ children }) {
-    var user = getLocalUser()
+    let user = getLocalUser()
     const location = useLocation();
     return user 
     ?  children
