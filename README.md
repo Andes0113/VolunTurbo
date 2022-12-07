@@ -4,4 +4,4 @@ HelpFast is a web app built with React and Django designed to eliminate the leng
 
 The general idea of HelpFast is to help users find an organization that matches their interests. Both volunteers and organizations can sign up to find their desired organization or volunteers, respectively.
 
-## Website will be live soon :)
+## https://volunturbo.herokuapp.com/
