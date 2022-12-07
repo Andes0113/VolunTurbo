@@ -49,9 +49,9 @@ urlpatterns = [
 
     # Dev Tools for testing; should never be available in production. 
     # Comment out or delete when pushing to heroku. 
-    path('dev/createuser/', views.dev_createuser),
-    path('dev/getusertoken/<uuid:id>/', views.dev_gettoken),
-    path('dev/approve/<uuid:id>/', views.dev_approveorg),
+    # path('dev/createuser/', views.dev_createuser),
+    # path('dev/getusertoken/<uuid:id>/', views.dev_gettoken),
+    # path('dev/approve/<uuid:id>/', views.dev_approveorg),
 
     # React Linking
 	re_path('.*', TemplateView.as_view(template_name='index.html')),
