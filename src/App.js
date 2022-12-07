@@ -13,13 +13,14 @@ import {
   Navigate,
   useLocation
 } from "react-router-dom";
+import { getLocalUser } from './calls/localuser';
 
 function App() {
 
   function RequireAuth({ children }) {
-    var token = sessionStorage.getItem('Bearer Token');
+    var user = getLocalUser()
     const location = useLocation();
-    return token 
+    return user 
     ?  children
     : <Navigate to="/login" replace state={{ path: location.pathname }} />;
   }
